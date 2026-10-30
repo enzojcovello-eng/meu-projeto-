@@ -113,9 +113,9 @@
 
 <main class="wrap">
   <div class="notice">
-    O jogo tem 88 conquistas. Esta lista tem as que consegui confirmar em guias da internet; as marcadas com
-    <span class="tag">confirmar</span> têm descrição incerta. Use "Adicionar conquista" para completar com as que faltam
-    (copie da sua lista na Steam ou Epic). Seu progresso fica salvo neste navegador; use "Exportar backup" para guardar uma cópia.
+    O jogo tem 88 troféus: 36 do jogo base (completos aqui, tirados dos seus prints do PlayStation) e 52 de pacotes extras.
+    Dos pacotes extras, esta lista tem só parte; as marcadas com <span class="tag">confirmar</span> têm descrição incerta.
+    Use "Adicionar conquista" para completar. Seu progresso fica salvo neste navegador; use "Exportar backup" para guardar uma cópia.
   </div>
 
   <div class="tools">
@@ -172,47 +172,84 @@
 <footer>Rocket League é marca da Psyonix. Lista feita para uso pessoal.</footer>
 
 <script>
-const BASE = "Jogo base";
-const UPD = "Atualizações gratuitas e modos extras";
+const BASE = "Jogo base (36 troféus)";
+const UPD = "Pacotes extras e modos (DLC)";
 const SF = "DLC Supersonic Fury";
 const RBC = "DLC Revenge of the Battle-Cars";
 const CR = "DLC Chaos Run";
 
 // c = confirmada em mais de um guia; c:false = descrição incerta
 const CONQUISTAS = [
-  {id:"first-timer", nome:"First-Timer", cat:BASE, c:true, desc:"Marque seu primeiro gol.",
-   como:"Entre numa partida de Exibição (Exhibition) sozinho, sem bots, e empurre a bola para o gol adversário."},
-  {id:"pick-me-up", nome:"Pick-Me Up", cat:BASE, c:true, desc:"Colete 5 itens.",
-   como:"Itens chegam jogando: drops depois das partidas, recompensas do Rocket Pass gratuito e desafios. Basta jogar normalmente."},
-  {id:"stocked", nome:"Stocked", cat:BASE, c:true, desc:"Colete 150 itens.",
-   como:"Mesmo caminho do Pick-Me Up, só que leva mais tempo. Fazer os desafios semanais e o Rocket Pass gratuito acelera bastante."},
-  {id:"tinkerer", nome:"Tinkerer", cat:BASE, c:true, desc:"Personalize um espaço (slot) de um carro.",
-   como:"Vá em Garage e troque qualquer peça do carro: roda, boost, decal ou chapéu. Uma troca já basta."},
-  {id:"friendly", nome:"Friendly", cat:BASE, c:true, desc:"Jogue uma partida de Exibição.",
-   como:"Menu Play > Offline > Exhibition. Jogue a partida até o fim."},
-  {id:"traveler", nome:"Traveler", cat:BASE, c:true, desc:"Jogue uma partida em seis arenas diferentes.",
-   como:"Em Exibição, use os mutators para limite de 1 gol (Max Score 1) e troque de arena a cada partida até completar seis."},
-  {id:"pitch-veteran", nome:"Pitch Veteran", cat:BASE, c:true, desc:"Jogue 20 partidas em qualquer modo.",
-   como:"Sai naturalmente. Partidas curtas de Exibição com limite de 1 gol também contam."},
-  {id:"super-victorious", nome:"Super Victorious", cat:BASE, c:true, desc:"Vença 30 partidas em qualquer modo.",
-   como:"O jeito mais rápido é Exibição contra bots Rookie (os mais fáceis) com limite de 1 gol."},
-  {id:"turbocharger", nome:"Turbocharger", cat:BASE, c:true, desc:"Use o boost por 5 minutos no total.",
-   como:"O tempo soma entre partidas. Numa Exibição sem bots, pegue os boosts grandes e segure o botão de boost."},
-  {id:"far-far-away", nome:"Far, Far Away", cat:BASE, c:true, desc:"Dirija 50 km no total.",
-   como:"Sai jogando normalmente. Também dá para rodar pelo Free Play até completar."},
-  {id:"clean-sheet", nome:"Clean Sheet", cat:BASE, c:true, desc:"Vença uma partida sem sofrer gol.",
-   como:"Exibição contra bots Rookie, ou sem bots: faça um gol e não deixe o adversário marcar."},
-  {id:"rocketeer", nome:"Rocketeer", cat:BASE, c:true, desc:"Complete a temporada regular do modo Season.",
-   como:"Jogue o modo Season (temporada offline contra bots) até o fim da fase regular. Dá para escolher temporada curta e bots fáceis."},
-  {id:"champion", nome:"Champion", cat:BASE, c:true, desc:"Vença o campeonato do modo Season.",
-   como:"Depois da fase regular do modo Season, vença os playoffs. Com bots Rookie fica bem mais fácil."},
-  {id:"helens-pride", nome:"Helen's Pride", cat:BASE, c:true, desc:"Marque 6 gols numa mesma partida.",
+  // Jogo base: 36 troféus conforme a lista do PlayStation em português. t = já conquistado (dos prints)
+  {id:"virtuoso", pt:"Virtuoso", nome:"Virtuoso", cat:BASE, desc:"Desbloqueie todos os troféus.",
+   como:"É o troféu de platina: vem sozinho quando você pega todos os outros troféus do jogo base."},
+  {id:"stocked", pt:"Armazenador", nome:"Stocked", cat:BASE, t:1, desc:"Colete 150 itens.",
+   como:"Itens chegam jogando: drops depois das partidas, Rocket Pass gratuito e desafios semanais."},
+  {id:"far-far-away", pt:"Muito, muito longe...", nome:"Far, Far Away", cat:BASE, t:1, desc:"Dirija um total de 50 km.",
+   como:"Sai naturalmente jogando. Também dá para rodar pelo Free Play até completar."},
+  {id:"super-victorious", pt:"Super Vitorioso", nome:"Super Victorious", cat:BASE, t:1, desc:"Vença um total de 30 partidas em qualquer modo.",
+   como:"O jeito mais rápido é Exibição contra bots Rookie (os mais fáceis)."},
+  {id:"champion", pt:"Campeão", nome:"Champion", cat:BASE, desc:"Vença o campeonato da temporada.",
+   como:"No modo Season (temporada offline contra bots), termine a fase regular e vença os playoffs. Escolha temporada curta e bots Rookie para ir rápido."},
+  {id:"sequencia-de-vitorias", pt:"Sequência de Vitórias", nome:"", cat:BASE, desc:"Vença 10 partidas seguidas em qualquer modo.",
+   como:"Faça 10 Exibições seguidas contra bots Rookie, sem perder nenhuma. Se perder uma, a contagem volta do zero."},
+  {id:"helens-pride", pt:"O orgulho de Helena", nome:"Helen's Pride", cat:BASE, t:1, desc:"Marque 6 gols em uma única partida.",
    como:"Exibição sozinho, sem bots: empurre a bola para o gol 6 vezes antes do tempo acabar."},
-  {id:"nice-hat", nome:"Nice Hat", cat:BASE, c:true, desc:"Marque 3 gols numa partida com um chapéu (topper) equipado.",
-   como:"Equipe qualquer topper na Garage e faça 3 gols numa Exibição sem bots."},
-  {id:"virtuoso", nome:"Virtuoso", cat:BASE, c:true, desc:"Desbloqueie todas as conquistas originais.",
-   como:"Vem sozinha quando você termina as outras conquistas do jogo base."},
+  {id:"colecionador-de-carros", pt:"Colecionador de carros", nome:"", cat:BASE, t:1, desc:"Obtenha 5 carros.",
+   como:"Carros vêm de drops, Rocket Pass e recompensas. Basta jogar."},
+  {id:"gotas-no-balde", pt:"Gotas no Balde", nome:"", cat:BASE, t:1, desc:"Colecione 50 itens.",
+   como:"Mesmo caminho do Armazenador, só que com menos itens."},
+  {id:"rocketeer", pt:"Foguetes são comigo", nome:"Rocketeer", cat:BASE, desc:"Complete uma temporada normal.",
+   como:"Jogue o modo Season até o fim da fase regular. Dá para escolher temporada curta e bots fáceis."},
+  {id:"mecanico", pt:"Mecânico", nome:"", cat:BASE, desc:"Personalize o adesivo, acessório, impulso de foguete e roda de um carro.",
+   como:"Na Garage, no mesmo carro, troque o decal (adesivo), o topper (acessório/chapéu), o boost e as rodas."},
+  {id:"bloqueio-infalivel", pt:"Bloqueio Infalível", nome:"", cat:BASE, t:1, desc:"Faça 20 defesas.",
+   como:"As defesas somam entre partidas. Defesa conta quando você tira do seu gol uma bola que ia entrar."},
+  {id:"toque-mortifero", pt:"Toque Mortífero", nome:"", cat:BASE, t:1, desc:"Marque um gol atingindo seu oponente na bola.",
+   como:"Chute a bola de forma que ela bata no carro do adversário e entre no gol. Mais fácil contra um bot Rookie."},
+  {id:"turbocharger", pt:"Velocista", nome:"Turbocharger", cat:BASE, t:1, desc:"Use o impulso de foguete (boost) por um total de 5 minutos.",
+   como:"O tempo soma entre partidas. Numa Exibição sem bots, pegue os boosts grandes e segure o botão."},
+  {id:"sargento-de-exercicios", pt:"Sargento de exercícios", nome:"", cat:BASE, t:1, desc:"Complete todos os exercícios de treinamento (qualquer dificuldade).",
+   como:"Menu Play > Training: complete os treinos de Striker (atacante), Goalie (goleiro) e Aerial (aéreo). A dificuldade Rookie é a mais fácil."},
+  {id:"minuto-para-a-vitoria", pt:"Minuto para a vitória", nome:"", cat:BASE, t:1, desc:"Com 60 segundos restantes, ganhe uma partida que estava empatada ou prestes a perder.",
+   como:"Exibição contra bot Rookie: deixe o placar empatado ou o bot na frente até faltar 1 minuto, aí vire o jogo."},
+  {id:"demonio-velocista", pt:"Demônio Velocista", nome:"", cat:BASE, t:1, desc:"Encha e esvazie completamente o boost 10 vezes em uma única partida.",
+   como:"Exibição sem bots: pegue um boost grande (100), gaste tudo até zerar, e repita 10 vezes na mesma partida."},
+  {id:"pick-me-up", pt:"Transporte de pesados", nome:"Pick-Me Up", cat:BASE, t:1, desc:"Colecione 5 itens.",
+   como:"Itens chegam jogando: drops, Rocket Pass gratuito e desafios."},
+  {id:"motorista-de-paredes", pt:"Motorista de Paredes", nome:"", cat:BASE, t:1, desc:"Dirija pelas paredes da arena por um total de 5 minutos.",
+   como:"Soma entre partidas. No Free Play, suba na parede e vá dirigindo por ela."},
+  {id:"parceiro-de-equipe", pt:"Parceiro de Equipe", nome:"", cat:BASE, desc:"Jogue contra todas as equipes no modo temporada.",
+   como:"Completar uma temporada inteira no modo Season já faz você enfrentar todos os times. Sai junto com o Foguetes são comigo."},
+  {id:"sarpbc-para-sempre", pt:"SARPBC para sempre", nome:"", cat:BASE, desc:"Jogue um jogo com Octane e um com Backfire.",
+   como:"Faça uma Exibição com o Octane e outra com o Backfire. Pode ser com limite de 1 gol para ser rápido."},
+  {id:"nostalgico", pt:"Nostálgico", nome:"", cat:BASE, desc:"Assista a um arquivo salvo no modo Replay.",
+   como:"No fim de uma partida, escolha Save Replay (salvar replay). Depois vá em Extras > Replays e assista."},
+  {id:"vencedor", pt:"Vencedor", nome:"", cat:BASE, t:1, desc:"Vença um total de 5 partidas em qualquer modo.",
+   como:"Exibição contra bots Rookie é o mais rápido."},
+  {id:"clean-sheet", pt:"Folha limpa", nome:"Clean Sheet", cat:BASE, t:1, desc:"Vença uma partida sem sua equipe sofrer gols.",
+   como:"Exibição contra bots Rookie, ou sem bots: faça um gol e não deixe o adversário marcar."},
+  {id:"ameaca-tripla", pt:"Ameaça tripla", nome:"", cat:BASE, t:1, desc:"Vença uma partida 3x3.", como:"Exibição 3x3 contra bots Rookie."},
+  {id:"em-dupla", pt:"Em Dupla", nome:"", cat:BASE, t:1, desc:"Vença uma partida 2x2.", como:"Exibição 2x2 contra bots Rookie."},
+  {id:"clube-solitario", pt:"Clube Solitário", nome:"", cat:BASE, t:1, desc:"Vença uma partida 1x1.", como:"Exibição 1x1 contra bot Rookie."},
+  {id:"arrancada-perfeita", pt:"Arrancada Perfeita", nome:"", cat:BASE, desc:"Vença sua primeira partida da temporada.",
+   como:"Inicie o modo Season com bots Rookie e vença o primeiro jogo."},
+  {id:"ainda-e-um-exibido", pt:"Ainda é um Exibido", nome:"", cat:BASE, t:1, desc:"Marque um gol enquanto dirige de ré.",
+   como:"Exibição sem bots: deixe a bola perto do gol, vire de costas e empurre ela de ré para dentro."},
+  {id:"sabe-tudo", pt:"Sabe tudo", nome:"", cat:BASE, t:1, desc:"Complete um exercício de treinamento.", como:"Menu Play > Training e termine qualquer treino."},
+  {id:"traveler", pt:"Viajante", nome:"Traveler", cat:BASE, t:1, desc:"Jogue um jogo em seis arenas diferentes.",
+   como:"Em Exibição, troque de arena a cada partida até completar seis."},
+  {id:"tinkerer", pt:"Funileiro", nome:"Tinkerer", cat:BASE, t:1, desc:"Personalize um espaço de um carro.",
+   como:"Na Garage, troque qualquer peça do carro. Uma troca já basta."},
+  {id:"first-timer", pt:"Principiante", nome:"First-Timer", cat:BASE, t:1, desc:"Marque o seu primeiro gol.", como:"Exibição sem bots: empurre a bola para o gol."},
+  {id:"barras-bravas", pt:"Barras Bravas", nome:"", cat:BASE, t:1, desc:"Jogue um jogo online com alguém no seu grupo.",
+   como:"Convide um amigo para o grupo (party) e joguem juntos uma partida online."},
+  {id:"friendly", pt:"Amigável", nome:"Friendly", cat:BASE, desc:"Jogue uma partida de exibição.", como:"Menu Play > Offline > Exhibition e jogue até o fim."},
+  {id:"pitch-veteran", pt:"Veterano da pista", nome:"Pitch Veteran", cat:BASE, t:1, desc:"Dispute um total de 20 partidas em qualquer modo.",
+   como:"Sai naturalmente. Exibições curtas também contam."},
 
+  {id:"nice-hat", nome:"Nice Hat", cat:UPD, c:true, desc:"Marque 3 gols numa partida com um chapéu (topper) equipado.",
+   como:"Equipe qualquer topper na Garage e faça 3 gols numa Exibição sem bots."},
   {id:"rank-up", nome:"Rank Up", cat:UPD, c:true, desc:"Termine todas as partidas de colocação (placement) em qualquer playlist Competitiva.",
    como:"Jogue as primeiras partidas de qualquer playlist Ranked até receber seu rank. Ganhar ou perder não importa."},
   {id:"all-fours", nome:"All Fours", cat:UPD, c:true, desc:"Vença uma partida 4x4.",
@@ -282,7 +319,7 @@ let estado = { feitas: {}, videos: {}, extras: [] };
 function carregar() {
   try {
     const s = JSON.parse(localStorage.getItem(KEY));
-    if (s) estado = { feitas: s.feitas || {}, videos: s.videos || {}, extras: s.extras || [] };
+    if (s) estado = { feitas: s.feitas || {}, videos: s.videos || {}, extras: s.extras || [], prints: s.prints };
   } catch (e) {}
 }
 function salvar() {
@@ -293,6 +330,8 @@ function todas() { return CONQUISTAS.concat(estado.extras); }
 let filtro = "todas";
 let aberta = null;
 
+function titulo(a) { return a.pt || a.nome; }
+function en(a) { return a.pt && a.nome && a.nome !== a.pt ? ` <span class="small">(${esc(a.nome)})</span>` : ""; }
 function esc(s) { return String(s || "").replace(/[&<>"']/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch])); }
 
 function render() {
@@ -321,7 +360,7 @@ function render() {
       const ok = !!estado.feitas[a.id];
       if (filtro === "tenho" && !ok) return false;
       if (filtro === "falta" && ok) return false;
-      if (busca && !(a.nome + " " + a.desc).toLowerCase().includes(busca)) return false;
+      if (busca && !((a.pt || "") + " " + a.nome + " " + a.desc).toLowerCase().includes(busca)) return false;
       return true;
     });
     if (!itens.length) continue;
@@ -331,8 +370,8 @@ function render() {
     for (const a of itens) {
       const ok = !!estado.feitas[a.id];
       html += `<div class="item ${ok ? "done" : ""}" data-id="${esc(a.id)}">
-        <button class="chk" data-chk="${esc(a.id)}" aria-label="Marcar ${esc(a.nome)}">${ok ? "✓" : ""}</button>
-        <div class="info"><div class="nome">${esc(a.nome)}${a.c === false ? '<span class="tag">confirmar</span>' : ""}</div>
+        <button class="chk" data-chk="${esc(a.id)}" aria-label="Marcar ${esc(titulo(a))}">${ok ? "✓" : ""}</button>
+        <div class="info"><div class="nome">${esc(titulo(a))}${en(a)}${a.c === false ? '<span class="tag">confirmar</span>' : ""}</div>
         <div class="desc">${esc(a.desc)}</div></div>
         <span class="arrow">›</span></div>`;
     }
@@ -345,14 +384,14 @@ function idVideo(url) {
   return m ? m[1] : null;
 }
 function ytBusca(a) {
-  return "https://www.youtube.com/results?search_query=" + encodeURIComponent("Rocket League " + a.nome + " achievement");
+  return "https://www.youtube.com/results?search_query=" + encodeURIComponent(a.nome ? "Rocket League " + a.nome + " trophy" : "Rocket League troféu " + a.pt);
 }
 
 function abrir(id) {
   const a = todas().find(x => x.id === id);
   if (!a) return;
   aberta = a;
-  document.getElementById("mNome").textContent = a.nome;
+  document.getElementById("mNome").textContent = titulo(a) + (a.pt && a.nome && a.nome !== a.pt ? " (" + a.nome + ")" : "");
   document.getElementById("mDesc").textContent = a.desc;
   document.getElementById("mComo").textContent = a.como || "Sem dica ainda. Veja um vídeo pelo botão abaixo.";
   document.getElementById("mDel").hidden = !estado.extras.some(x => x.id === id);
@@ -411,7 +450,7 @@ document.getElementById("mVideoSave").onclick = () => {
   estado.videos[aberta.id] = v; salvar(); mostrarVideo();
 };
 document.getElementById("mDel").onclick = () => {
-  if (!confirm("Apagar a conquista \"" + aberta.nome + "\"?")) return;
+  if (!confirm("Apagar a conquista \"" + titulo(aberta) + "\"?")) return;
   estado.extras = estado.extras.filter(x => x.id !== aberta.id);
   delete estado.feitas[aberta.id]; delete estado.videos[aberta.id];
   salvar(); fechar(); render();
@@ -449,7 +488,7 @@ document.getElementById("fileImport").addEventListener("change", e => {
   r.onload = () => {
     try {
       const s = JSON.parse(r.result);
-      estado = { feitas: s.feitas || {}, videos: s.videos || {}, extras: s.extras || [] };
+      estado = { feitas: s.feitas || {}, videos: s.videos || {}, extras: s.extras || [], prints: true };
       salvar(); render(); alert("Backup importado!");
     } catch (err) { alert("Esse arquivo não é um backup válido."); }
   };
@@ -457,6 +496,11 @@ document.getElementById("fileImport").addEventListener("change", e => {
 });
 
 carregar();
+// Marca uma única vez os troféus que já aparecem conquistados nos prints (só adiciona, nunca desmarca)
+if (!estado.prints) {
+  CONQUISTAS.forEach(a => { if (a.t) estado.feitas[a.id] = true; });
+  estado.prints = true; salvar();
+}
 render();
 </script>
 </body>
