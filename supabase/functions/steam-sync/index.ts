@@ -9,7 +9,8 @@ import { createClient } from "npm:@supabase/supabase-js@2.45.4";
 
 const STEAM = "https://api.steampowered.com";
 const GAMES_PER_CALL = 25; // quantos jogos processar por chamada (evita estourar o tempo limite)
-const LANG = "brazilian"; // idioma dos nomes das conquistas
+// Idioma dos nomes das conquistas na Steam, conforme o idioma escolhido no site.
+const STEAM_LANG: Record<string, string> = { en: "english", es: "spanish", pt: "brazilian" };
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -67,6 +68,7 @@ Deno.serve(async (req) => {
 
     const body = await req.json().catch(() => ({}));
     const offset = Number(body.offset ?? 0);
+    const LANG = STEAM_LANG[String(body.lang ?? "en")] ?? "english";
     let steamId: string | null = null;
 
     if (body.profile) {
