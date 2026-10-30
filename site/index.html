@@ -1,0 +1,495 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Troféus</title>
+<meta name="theme-color" content="#0b1020">
+<style>
+  :root {
+    --bg: #0b1020; --card: #141b33; --card2: #1b2445; --text: #e8ecff; --muted: #93a0c8;
+    --blue: #2f8bff; --orange: #ff8a1f; --green: #2ecc71; --border: #26315a; --warn: #f5c542; --red: #ff6b6b;
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: var(--bg); color: var(--text); }
+  body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; line-height: 1.45; }
+  header { background: linear-gradient(90deg, #12306b, #0b1020 45%, #0b1020 55%, #6b3410); border-bottom: 1px solid var(--border); padding-block: 16px 14px; }
+  .wrap { max-width: 900px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+  .top { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+  h1 { margin: 0; font-size: 1.4rem; cursor: pointer; }
+  h1 .o { color: var(--orange); }
+  .sub { color: var(--muted); font-size: .92rem; margin: 4px 0 0; }
+  .who { font-size: .9rem; color: var(--muted); display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .who b { color: var(--text); }
+  main { padding-block: 16px 40px; }
+  h2 { font-size: 1.15rem; margin: 18px 0 10px; }
+  h2.cat { font-size: 1rem; margin: 22px 0 8px; color: var(--muted); font-weight: 600; display: flex; justify-content: space-between; }
+  p.small, .small { font-size: .85rem; color: var(--muted); }
+  input, textarea, select { background: var(--card); color: var(--text); border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; font: inherit; width: 100%; }
+  input:focus, textarea:focus, button:focus-visible { outline: 2px solid var(--blue); outline-offset: 1px; }
+  label { display: block; font-size: .85rem; color: var(--muted); margin: 10px 0 4px; }
+  button { background: var(--card2); color: var(--text); border: 1px solid var(--border); border-radius: 10px; padding: 9px 12px; font: inherit; cursor: pointer; }
+  button:hover { border-color: var(--blue); }
+  button.primary { background: var(--blue); border-color: var(--blue); color: #fff; font-weight: 600; }
+  button.orange { background: var(--orange); border-color: var(--orange); color: #1a0d00; font-weight: 600; }
+  button.link { background: none; border: none; color: var(--blue); padding: 0; text-decoration: underline; }
+  button[disabled] { opacity: .6; cursor: wait; }
+  .row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; align-items: center; }
+  .row > input { flex: 1 1 200px; width: auto; }
+  .box { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 16px; }
+  .auth { max-width: 420px; margin: 20px auto; }
+  .tabs { display: flex; gap: 6px; margin-bottom: 12px; }
+  .tabs button.on { background: var(--blue); border-color: var(--blue); color: #fff; }
+  .msg { font-size: .88rem; color: var(--warn); min-height: 1.2em; margin: 8px 0 0; }
+  .msg.err { color: var(--red); }
+  .msg.ok { color: var(--green); }
+  .progress .bar { height: 12px; background: #0a0f1f; border: 1px solid var(--border); border-radius: 999px; overflow: hidden; }
+  .progress .bar > div { height: 100%; width: 0; background: linear-gradient(90deg, var(--blue), var(--orange)); transition: width .3s; }
+  .ptext { display: flex; justify-content: space-between; font-size: .88rem; margin-top: 6px; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .ptext b { color: var(--text); }
+  .games { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 10px; }
+  .game { display: flex; gap: 12px; align-items: center; background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 12px; cursor: pointer; text-align: left; }
+  .game:hover { border-color: #3a4a85; }
+  .game img, .game .ph { width: 40px; height: 40px; border-radius: 8px; flex: 0 0 40px; background: var(--card2); display: grid; place-items: center; color: var(--muted); font-size: .7rem; }
+  .game .n { font-weight: 600; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .game .s { font-size: .82rem; color: var(--muted); }
+  .game .info { min-width: 0; flex: 1; }
+  .tools { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 8px; }
+  .tools input[type=search] { flex: 1 1 200px; width: auto; }
+  .filters { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
+  .filters button.on { background: var(--blue); border-color: var(--blue); color: #fff; }
+  .item { display: flex; align-items: center; gap: 12px; background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 10px 12px; margin-bottom: 6px; cursor: pointer; }
+  .item:hover { border-color: #3a4a85; }
+  .item.done { border-color: #1f5c3a; background: #12261f; }
+  .item.done .nome { color: #9ff0c0; }
+  .chk { flex: 0 0 26px; height: 26px; border-radius: 8px; border: 2px solid #44518a; display: grid; place-items: center; font-weight: 700; color: #fff; background: transparent; padding: 0; }
+  .item.done .chk { background: var(--green); border-color: var(--green); }
+  .item img { width: 36px; height: 36px; border-radius: 6px; flex: 0 0 36px; }
+  .info { flex: 1; min-width: 0; }
+  .nome { font-weight: 600; }
+  .desc { color: var(--muted); font-size: .9rem; }
+  .tag { font-size: .72rem; color: var(--warn); border: 1px solid #5a4a12; border-radius: 6px; padding: 1px 6px; margin-left: 6px; white-space: nowrap; }
+  .arrow { color: var(--muted); font-size: 1.2rem; }
+  .modal-bg { position: fixed; inset: 0; background: rgba(0,0,0,.65); display: none; align-items: flex-start; justify-content: center; padding: calc(30px + env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) calc(30px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); overflow-y: auto; z-index: 10; }
+  .modal-bg.open { display: flex; }
+  .modal { background: var(--card); border: 1px solid var(--border); border-radius: 16px; width: 100%; max-width: 680px; padding: 18px; }
+  .modal h3 { margin: 0 0 2px; font-size: 1.3rem; }
+  .modal .pt { color: var(--muted); margin: 0 0 12px; }
+  .modal h4 { margin: 16px 0 6px; font-size: .95rem; color: var(--orange); }
+  .video { position: relative; width: 100%; max-width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 10px; overflow: hidden; }
+  .video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+  a.btn { display: inline-block; text-decoration: none; border-radius: 10px; padding: 9px 12px; border: 1px solid var(--border); color: var(--text); }
+  a.btn.orange { background: var(--orange); border-color: var(--orange); color: #1a0d00; font-weight: 600; }
+  .close { float: right; }
+  details { margin-top: 12px; }
+  summary { cursor: pointer; color: var(--blue); }
+  [hidden] { display: none !important; }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap top">
+    <div>
+      <h1 id="logo">Tro<span class="o">féus</span></h1>
+      <p class="sub">Marque o que você já conquistou nos seus jogos.</p>
+    </div>
+    <div class="who" id="who" hidden>
+      <span>Olá, <b id="whoName"></b></span>
+      <button id="btnConta">Conta</button>
+      <button id="btnSair">Sair</button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div id="setupAviso" class="box" hidden>
+    <b>O site ainda não está ligado ao banco de dados.</b>
+    <p class="small">Abra o arquivo <code>config.js</code> e preencha a URL e a chave anon do seu projeto Supabase. O passo a passo está no GUIA-DE-INSTALACAO.md.</p>
+  </div>
+
+  <!-- Login / cadastro -->
+  <section id="viewAuth" class="auth box" hidden>
+    <div class="tabs">
+      <button id="tabLogin" class="on" type="button">Entrar</button>
+      <button id="tabCadastro" type="button">Criar conta</button>
+    </div>
+    <form id="formLogin">
+      <label for="lUser">Nome de usuário</label>
+      <input id="lUser" autocomplete="username" required>
+      <label for="lPass">Senha</label>
+      <input id="lPass" type="password" autocomplete="current-password" required>
+      <div class="row"><button class="primary" type="submit">Entrar</button></div>
+      <p class="msg" id="lMsg"></p>
+    </form>
+    <form id="formCadastro" hidden>
+      <label for="cUser">Nome de usuário</label>
+      <input id="cUser" autocomplete="username" required minlength="3" maxlength="24" placeholder="letras, números, ponto, traço ou _">
+      <label for="cPass">Senha (mínimo 6 caracteres)</label>
+      <input id="cPass" type="password" autocomplete="new-password" required minlength="6">
+      <label for="cEmail">E-mail (opcional, serve para recuperar a senha)</label>
+      <input id="cEmail" type="email" autocomplete="email" placeholder="pode deixar em branco">
+      <div class="row"><button class="orange" type="submit">Criar conta</button></div>
+      <p class="msg" id="cMsg"></p>
+      <p class="small">Toda conta nova começa com os troféus zerados. Você marca o que já tem.</p>
+    </form>
+  </section>
+
+  <!-- Biblioteca -->
+  <section id="viewLib" hidden>
+    <h2>Seus jogos</h2>
+    <div class="games" id="games"></div>
+    <p class="small" id="libVazia" hidden>Nenhum jogo ainda. Adicione um jogo abaixo ou vincule a Steam na sua conta.</p>
+    <h2>Adicionar jogo</h2>
+    <div class="games" id="catalogo"></div>
+    <p class="small" id="catVazio" hidden>Todos os jogos disponíveis já estão na sua lista.</p>
+  </section>
+
+  <!-- Checklist de um jogo -->
+  <section id="viewGame" hidden>
+    <div class="row"><button id="btnVoltar" type="button">‹ Seus jogos</button></div>
+    <h2 id="gTitulo"></h2>
+    <div class="progress"><div class="bar"><div id="barFill"></div></div>
+      <div class="ptext"><span><b id="pDone">0</b> de <b id="pTotal">0</b></span><span id="pPct">0%</span></div></div>
+    <div class="tools">
+      <input type="search" id="busca" placeholder="Buscar conquista...">
+    </div>
+    <div class="filters">
+      <button data-f="todas" class="on" type="button">Todas</button>
+      <button data-f="tenho" type="button">Tenho</button>
+      <button data-f="falta" type="button">Não tenho</button>
+    </div>
+    <div id="lista"></div>
+  </section>
+
+  <!-- Conta -->
+  <section id="viewConta" hidden>
+    <div class="row"><button id="btnVoltar2" type="button">‹ Seus jogos</button></div>
+    <h2>Sua conta</h2>
+    <div class="box">
+      <p>Usuário: <b id="acUser"></b></p>
+      <p>E-mail: <span id="acEmail"></span></p>
+      <p class="small">Sem e-mail não dá para recuperar a senha. Se quiser, adicione um:</p>
+      <form id="formEmail" class="row"><input id="acNovoEmail" type="email" placeholder="seu@email.com"><button type="submit">Salvar e-mail</button></form>
+      <p class="msg" id="acMsg"></p>
+    </div>
+
+    <h2>Steam (opcional)</h2>
+    <div class="box">
+      <p class="small">Cole o link do seu perfil Steam. O perfil e os "detalhes do jogo" precisam estar como Público nas configurações de privacidade da Steam. O site busca seus jogos com conquistas e já marca as que você desbloqueou.</p>
+      <p id="stStatus" class="small"></p>
+      <form id="formSteam" class="row">
+        <input id="stPerfil" placeholder="https://steamcommunity.com/id/seu-apelido">
+        <button class="primary" type="submit" id="stBtn">Vincular e sincronizar</button>
+      </form>
+      <div class="row"><button type="button" id="stResync" hidden>Sincronizar de novo</button><button type="button" id="stRemover" hidden>Desvincular Steam</button></div>
+      <p class="msg" id="stMsg"></p>
+    </div>
+
+    <h2>PlayStation</h2>
+    <div class="box">
+      <p class="small">A Sony não oferece uma forma oficial de ler os troféus de uma conta, então o vínculo com o PS5 não existe aqui. Para jogos de PlayStation, marque os troféus à mão na lista do jogo.</p>
+    </div>
+  </section>
+</main>
+
+<div class="modal-bg" id="modalBg">
+  <div class="modal" role="dialog" aria-modal="true">
+    <button class="close" id="mClose" type="button">Fechar ✕</button>
+    <h3 id="mNome"></h3>
+    <p class="pt" id="mDesc"></p>
+    <button id="mToggle" class="primary" type="button"></button>
+    <div id="mComoBox"><h4>Como pegar</h4><div id="mComo"></div></div>
+    <h4>Vídeo</h4>
+    <div id="mVideoBox"></div>
+    <div class="row">
+      <input type="text" id="mVideoUrl" placeholder="Cole aqui o link de um vídeo do YouTube">
+      <button id="mVideoSave" type="button">Usar este vídeo</button>
+    </div>
+    <div class="row"><a id="mYt" class="btn orange" target="_blank" rel="noopener">Procurar vídeos no YouTube</a></div>
+    <p class="msg" id="mMsg"></p>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="config.js"></script>
+<script>
+(function () {
+  const cfg = window.TROFEUS_CONFIG || {};
+  const $ = (id) => document.getElementById(id);
+  const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const INTERNAL_DOMAIN = "usuarios.trofeus.app"; // e-mail interno de quem não informa e-mail
+
+  if (!cfg.SUPABASE_URL || cfg.SUPABASE_URL.includes("SEU-PROJETO") || !window.supabase) {
+    $("setupAviso").hidden = false;
+    return;
+  }
+  const sb = window.supabase.createClient(cfg.SUPABASE_URL, cfg.SUPABASE_ANON_KEY);
+
+  let user = null, profile = null;
+  let jogoAtual = null, conquistas = [], progresso = new Map(); // achievement_id -> row
+  let filtro = "todas", aberta = null;
+
+  // ---------- navegação ----------
+  function show(view) {
+    for (const v of ["viewAuth", "viewLib", "viewGame", "viewConta"]) $(v).hidden = v !== view;
+    window.scrollTo(0, 0);
+  }
+  function setMsg(id, texto, tipo) { const el = $(id); el.textContent = texto || ""; el.className = "msg" + (tipo ? " " + tipo : ""); }
+
+  // ---------- autenticação ----------
+  function emailInterno(u) { return `${u}@${INTERNAL_DOMAIN}`; }
+  function normUser(u) { return (u || "").trim().toLowerCase(); }
+
+  $("tabLogin").onclick = () => { $("tabLogin").classList.add("on"); $("tabCadastro").classList.remove("on"); $("formLogin").hidden = false; $("formCadastro").hidden = true; };
+  $("tabCadastro").onclick = () => { $("tabCadastro").classList.add("on"); $("tabLogin").classList.remove("on"); $("formLogin").hidden = true; $("formCadastro").hidden = false; };
+
+  $("formCadastro").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const u = normUser($("cUser").value), p = $("cPass").value, em = $("cEmail").value.trim();
+    if (!/^[a-z0-9._-]{3,24}$/.test(u)) return setMsg("cMsg", "Nome de usuário: 3 a 24 caracteres, só letras, números, ponto, traço ou _.", "err");
+    setMsg("cMsg", "Criando conta...");
+    const { data: taken } = await sb.rpc("username_taken", { p_username: u });
+    if (taken) return setMsg("cMsg", "Esse nome de usuário já existe. Escolha outro.", "err");
+    const { error } = await sb.auth.signUp({
+      email: em || emailInterno(u), password: p,
+      options: { data: { username: u, contact_email: em } },
+    });
+    if (error) return setMsg("cMsg", traduzErro(error.message), "err");
+    const { error: e2 } = await sb.auth.signInWithPassword({ email: em || emailInterno(u), password: p });
+    if (e2) return setMsg("cMsg", "Conta criada. Se você informou e-mail, confirme pelo link que chegou e depois entre.", "ok");
+  });
+
+  $("formLogin").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const u = normUser($("lUser").value), p = $("lPass").value;
+    setMsg("lMsg", "Entrando...");
+    let email = u.includes("@") ? u : null;
+    if (!email) {
+      const { data } = await sb.rpc("login_email_for", { p_username: u });
+      email = data || emailInterno(u);
+    }
+    const { error } = await sb.auth.signInWithPassword({ email, password: p });
+    if (error) setMsg("lMsg", traduzErro(error.message), "err");
+  });
+
+  function traduzErro(m) {
+    m = String(m || "");
+    if (/Invalid login credentials/i.test(m)) return "Usuário ou senha incorretos.";
+    if (/already registered/i.test(m)) return "Já existe uma conta com esse e-mail.";
+    if (/Password should be/i.test(m)) return "A senha precisa ter pelo menos 6 caracteres.";
+    if (/Email not confirmed/i.test(m)) return "Confirme seu e-mail pelo link que chegou e tente de novo.";
+    if (/rate limit/i.test(m)) return "Muitas tentativas. Espere um minuto.";
+    return "Erro: " + m;
+  }
+
+  $("btnSair").onclick = () => sb.auth.signOut();
+  $("logo").onclick = () => { if (user) irBiblioteca(); };
+  $("btnVoltar").onclick = irBiblioteca;
+  $("btnVoltar2").onclick = irBiblioteca;
+  $("btnConta").onclick = irConta;
+
+  sb.auth.onAuthStateChange(async (_ev, session) => {
+    user = session?.user ?? null;
+    if (!user) { profile = null; $("who").hidden = true; $("tabLogin").click(); setMsg("lMsg", ""); setMsg("cMsg", ""); show("viewAuth"); return; }
+    const { data } = await sb.from("profiles").select("*").eq("id", user.id).single();
+    profile = data;
+    $("whoName").textContent = profile?.username || "você";
+    $("who").hidden = false;
+    irBiblioteca();
+  });
+
+  // ---------- biblioteca ----------
+  async function irBiblioteca() {
+    show("viewLib");
+    const [{ data: meus }, { data: todos }] = await Promise.all([
+      sb.from("user_games").select("game_id, playtime_minutes, games(id, name, platform, icon_url, source)").eq("user_id", user.id),
+      sb.from("games").select("id, name, platform, icon_url, source").eq("source", "builtin").order("name"),
+    ]);
+    const meusIds = new Set((meus || []).map((r) => r.game_id));
+    const ids = [...meusIds];
+    let contagem = new Map();
+    if (ids.length) {
+      const [{ data: totais }, { data: feitas }] = await Promise.all([
+        sb.from("achievements").select("game_id").in("game_id", ids),
+        sb.from("user_achievements").select("achievement_id, achievements!inner(game_id)").eq("user_id", user.id).eq("unlocked", true).in("achievements.game_id", ids),
+      ]);
+      for (const t of totais || []) { const c = contagem.get(t.game_id) || { t: 0, f: 0 }; c.t++; contagem.set(t.game_id, c); }
+      for (const f of feitas || []) { const g = f.achievements?.game_id; const c = contagem.get(g) || { t: 0, f: 0 }; c.f++; contagem.set(g, c); }
+    }
+    const lista = (meus || []).map((r) => r.games).filter(Boolean).sort((a, b) => a.name.localeCompare(b.name));
+    $("games").innerHTML = lista.map((g) => {
+      const c = contagem.get(g.id) || { t: 0, f: 0 };
+      return `<button class="game" data-id="${g.id}" type="button">${g.icon_url ? `<img src="${esc(g.icon_url)}" alt="">` : `<span class="ph">${esc(g.platform.slice(0, 2))}</span>`}
+        <span class="info"><span class="n">${esc(g.name)}</span><br><span class="s">${esc(g.platform)} · ${c.f}/${c.t}</span></span><span class="arrow">›</span></button>`;
+    }).join("");
+    $("libVazia").hidden = lista.length > 0;
+    const cat = (todos || []).filter((g) => !meusIds.has(g.id));
+    $("catalogo").innerHTML = cat.map((g) => `<button class="game" data-add="${g.id}" type="button"><span class="ph">+</span><span class="info"><span class="n">${esc(g.name)}</span><br><span class="s">${esc(g.platform)}</span></span></button>`).join("");
+    $("catVazio").hidden = cat.length > 0;
+  }
+  $("games").addEventListener("click", (e) => { const b = e.target.closest("[data-id]"); if (b) abrirJogo(Number(b.dataset.id)); });
+  $("catalogo").addEventListener("click", async (e) => {
+    const b = e.target.closest("[data-add]"); if (!b) return;
+    b.disabled = true;
+    await sb.from("user_games").upsert({ user_id: user.id, game_id: Number(b.dataset.add) });
+    abrirJogo(Number(b.dataset.add));
+  });
+
+  // ---------- checklist ----------
+  async function abrirJogo(gameId) {
+    const [{ data: g }, { data: achs }, { data: prog }] = await Promise.all([
+      sb.from("games").select("*").eq("id", gameId).single(),
+      sb.from("achievements").select("*").eq("game_id", gameId).order("sort_order"),
+      sb.from("user_achievements").select("*").eq("user_id", user.id),
+    ]);
+    jogoAtual = g; conquistas = achs || [];
+    const ids = new Set(conquistas.map((a) => a.id));
+    progresso = new Map((prog || []).filter((p) => ids.has(p.achievement_id)).map((p) => [p.achievement_id, p]));
+    $("gTitulo").textContent = `${g.name} · ${g.platform}`;
+    $("busca").value = ""; filtro = "todas";
+    document.querySelectorAll(".filters [data-f]").forEach((x) => x.classList.toggle("on", x.dataset.f === "todas"));
+    show("viewGame"); render();
+  }
+  const feita = (a) => !!progresso.get(a.id)?.unlocked;
+
+  function render() {
+    const busca = $("busca").value.trim().toLowerCase();
+    const done = conquistas.filter(feita).length, total = conquistas.length;
+    const pct = total ? Math.round(done / total * 100) : 0;
+    $("pDone").textContent = done; $("pTotal").textContent = total; $("pPct").textContent = pct + "%"; $("barFill").style.width = pct + "%";
+    const cats = [...new Set(conquistas.map((a) => a.category || ""))];
+    let html = "";
+    for (const c of cats) {
+      const itens = conquistas.filter((a) => (a.category || "") === c).filter((a) => {
+        const ok = feita(a);
+        if (filtro === "tenho" && !ok) return false;
+        if (filtro === "falta" && ok) return false;
+        if (busca && !(`${a.name} ${a.name_en || ""} ${a.description || ""}`).toLowerCase().includes(busca)) return false;
+        return true;
+      });
+      if (!itens.length) continue;
+      if (c) {
+        const dc = conquistas.filter((a) => (a.category || "") === c && feita(a)).length, tc = conquistas.filter((a) => (a.category || "") === c).length;
+        html += `<h2 class="cat"><span>${esc(c)}</span><span>${dc}/${tc}</span></h2>`;
+      }
+      for (const a of itens) {
+        const ok = feita(a), p = progresso.get(a.id);
+        html += `<div class="item ${ok ? "done" : ""}" data-id="${a.id}">
+          <button class="chk" data-chk="${a.id}" type="button" aria-label="Marcar ${esc(a.name)}">${ok ? "✓" : ""}</button>
+          ${a.icon_url ? `<img src="${esc(a.icon_url)}" alt="">` : ""}
+          <div class="info"><div class="nome">${esc(a.name)}${a.name_en && a.name_en !== a.name ? ` <span class="small">(${esc(a.name_en)})</span>` : ""}${p?.source === "steam" ? '<span class="tag">Steam</span>' : ""}</div>
+          <div class="desc">${esc(a.description)}</div></div><span class="arrow">›</span></div>`;
+      }
+    }
+    $("lista").innerHTML = html || '<p class="small">Nenhuma conquista encontrada.</p>';
+  }
+
+  async function alternar(id) {
+    const atual = progresso.get(id);
+    const novo = { user_id: user.id, achievement_id: id, unlocked: !atual?.unlocked, unlocked_at: !atual?.unlocked ? new Date().toISOString() : null, source: "manual", video_url: atual?.video_url ?? null };
+    progresso.set(id, novo); render();
+    const { error } = await sb.from("user_achievements").upsert(novo);
+    if (error) { if (atual) progresso.set(id, atual); else progresso.delete(id); render(); }
+    if (aberta && aberta.id === id) atualizarToggle();
+  }
+  $("lista").addEventListener("click", (e) => {
+    const chk = e.target.closest("[data-chk]");
+    if (chk) { e.stopPropagation(); alternar(Number(chk.dataset.chk)); return; }
+    const it = e.target.closest(".item"); if (it) abrir(Number(it.dataset.id));
+  });
+  $("busca").addEventListener("input", render);
+  document.querySelectorAll(".filters [data-f]").forEach((b) => b.addEventListener("click", () => {
+    filtro = b.dataset.f; document.querySelectorAll(".filters [data-f]").forEach((x) => x.classList.toggle("on", x === b)); render();
+  }));
+
+  // ---------- detalhe da conquista ----------
+  function idVideo(url) { const m = String(url).match(/(?:youtu\.be\/|v=|\/shorts\/|\/embed\/|\/live\/)([A-Za-z0-9_-]{11})/); return m ? m[1] : null; }
+  function abrir(id) {
+    aberta = conquistas.find((a) => a.id === id); if (!aberta) return;
+    $("mNome").textContent = aberta.name + (aberta.name_en && aberta.name_en !== aberta.name ? ` (${aberta.name_en})` : "");
+    $("mDesc").textContent = aberta.description || "";
+    $("mComoBox").hidden = !aberta.how_to; $("mComo").textContent = aberta.how_to || "";
+    $("mYt").href = "https://www.youtube.com/results?search_query=" + encodeURIComponent(`${jogoAtual.name} ${aberta.name_en || aberta.name} ${jogoAtual.platform === "Steam" ? "achievement" : "trophy"}`);
+    setMsg("mMsg", ""); atualizarToggle(); mostrarVideo();
+    $("modalBg").classList.add("open");
+  }
+  function atualizarToggle() { const ok = feita(aberta); const b = $("mToggle"); b.textContent = ok ? "✓ Já tenho (clique para desmarcar)" : "Marcar como conquistada"; b.className = ok ? "" : "primary"; }
+  function mostrarVideo() {
+    const vid = idVideo(progresso.get(aberta.id)?.video_url || "");
+    $("mVideoUrl").value = vid ? "https://youtu.be/" + vid : "";
+    $("mVideoBox").innerHTML = vid
+      ? `<div class="video"><iframe src="https://www.youtube.com/embed/${vid}" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`
+      : '<p class="small">Nenhum vídeo salvo para esta conquista ainda.</p>';
+  }
+  function fechar() { $("modalBg").classList.remove("open"); aberta = null; }
+  $("mClose").onclick = fechar;
+  $("modalBg").addEventListener("click", (e) => { if (e.target.id === "modalBg") fechar(); });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") fechar(); });
+  $("mToggle").onclick = () => alternar(aberta.id);
+  $("mVideoSave").onclick = async () => {
+    const url = $("mVideoUrl").value.trim();
+    const v = url ? idVideo(url) : "";
+    if (url && !v) return setMsg("mMsg", "Não reconheci esse link. Cole um link do YouTube, por exemplo https://youtu.be/...", "err");
+    const atual = progresso.get(aberta.id);
+    const novo = { user_id: user.id, achievement_id: aberta.id, unlocked: !!atual?.unlocked, unlocked_at: atual?.unlocked_at ?? null, source: atual?.source ?? "manual", video_url: v ? "https://youtu.be/" + v : null };
+    const { error } = await sb.from("user_achievements").upsert(novo);
+    if (error) return setMsg("mMsg", "Não consegui salvar: " + error.message, "err");
+    progresso.set(aberta.id, novo); mostrarVideo(); setMsg("mMsg", v ? "Vídeo salvo." : "Vídeo removido.", "ok");
+  };
+
+  // ---------- conta ----------
+  async function irConta() {
+    show("viewConta");
+    const { data } = await sb.from("profiles").select("*").eq("id", user.id).single();
+    profile = data || profile;
+    $("acUser").textContent = profile?.username || "";
+    $("acEmail").textContent = profile?.email || "não informado";
+    setMsg("acMsg", ""); setMsg("stMsg", "");
+    $("stPerfil").value = "";
+    const temSteam = !!profile?.steam_id;
+    $("stStatus").textContent = temSteam ? `Vinculado a ${profile.steam_name || profile.steam_id}` + (profile.steam_synced_at ? ` · última sincronização em ${new Date(profile.steam_synced_at).toLocaleString("pt-BR")}` : "") : "Nenhuma conta Steam vinculada.";
+    $("stResync").hidden = !temSteam; $("stRemover").hidden = !temSteam;
+  }
+  $("formEmail").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const em = $("acNovoEmail").value.trim(); if (!em) return;
+    const { error } = await sb.auth.updateUser({ email: em });
+    if (error) return setMsg("acMsg", traduzErro(error.message), "err");
+    await sb.from("profiles").update({ email: em }).eq("id", user.id);
+    setMsg("acMsg", "Enviamos um link de confirmação para " + em + ". Depois de confirmar, você entra com o usuário ou com o e-mail.", "ok");
+    $("acEmail").textContent = em;
+  });
+
+  async function sincronizarSteam(perfil) {
+    const btn = $("stBtn"); btn.disabled = true; $("stResync").disabled = true;
+    let offset = 0, total = 0;
+    try {
+      while (offset !== null) {
+        setMsg("stMsg", total ? `Sincronizando... ${Math.min(offset, total)} de ${total} jogos` : "Procurando seu perfil na Steam...");
+        const { data, error } = await sb.functions.invoke("steam-sync", { body: { profile: perfil || undefined, offset } });
+        if (error) {
+          let m = error.message;
+          try { const j = await error.context?.json(); if (j?.error) m = j.error; } catch (_) {}
+          throw new Error(m);
+        }
+        if (data?.error) throw new Error(data.error);
+        total = data.total_games; offset = data.next_offset; perfil = null;
+      }
+      setMsg("stMsg", `Pronto! ${total} jogos conferidos. Os que têm conquistas já estão em "Seus jogos".`, "ok");
+      await irConta(); setMsg("stMsg", `Pronto! ${total} jogos conferidos. Os que têm conquistas já estão em "Seus jogos".`, "ok");
+    } catch (err) {
+      setMsg("stMsg", err.message || "Não deu certo. Tente de novo.", "err");
+    } finally { btn.disabled = false; $("stResync").disabled = false; }
+  }
+  $("formSteam").addEventListener("submit", (e) => { e.preventDefault(); const p = $("stPerfil").value.trim(); if (!p) return setMsg("stMsg", "Cole o link do seu perfil Steam.", "err"); sincronizarSteam(p); });
+  $("stResync").onclick = () => sincronizarSteam(null);
+  $("stRemover").onclick = async () => {
+    await sb.from("profiles").update({ steam_id: null, steam_name: null, steam_synced_at: null }).eq("id", user.id);
+    setMsg("stMsg", "Steam desvinculada. Os jogos e marcações continuam na sua lista.", "ok"); irConta();
+  };
+})();
+</script>
+</body>
+</html>
