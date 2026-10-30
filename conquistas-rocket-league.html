@@ -1,0 +1,463 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Conquistas Rocket League</title>
+<style>
+  :root {
+    --bg: #0b1020;
+    --card: #141b33;
+    --card2: #1b2445;
+    --text: #e8ecff;
+    --muted: #93a0c8;
+    --blue: #2f8bff;
+    --orange: #ff8a1f;
+    --green: #2ecc71;
+    --border: #26315a;
+    --warn: #f5c542;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.45;
+  }
+  header {
+    background: linear-gradient(90deg, #12306b, #0b1020 45%, #0b1020 55%, #6b3410);
+    padding: 22px 16px 18px; border-bottom: 1px solid var(--border);
+  }
+  .wrap { max-width: 900px; margin: 0 auto; padding: 0 16px; }
+  h1 { margin: 0 0 4px; font-size: 1.6rem; }
+  h1 span.b { color: var(--blue); } h1 span.o { color: var(--orange); }
+  .sub { color: var(--muted); font-size: .92rem; margin: 0; }
+  .progress { margin-top: 14px; }
+  .bar { height: 14px; background: #0a0f1f; border: 1px solid var(--border); border-radius: 999px; overflow: hidden; }
+  .bar > div { height: 100%; width: 0; background: linear-gradient(90deg, var(--blue), var(--orange)); transition: width .3s; }
+  .ptext { display: flex; justify-content: space-between; font-size: .9rem; margin-top: 6px; color: var(--muted); }
+  .ptext b { color: var(--text); }
+
+  .tools { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 8px; }
+  input[type=search], input[type=text], textarea, select {
+    background: var(--card); color: var(--text); border: 1px solid var(--border);
+    border-radius: 10px; padding: 9px 12px; font: inherit; width: 100%;
+  }
+  .tools input[type=search] { flex: 1 1 220px; width: auto; }
+  .tools select { width: auto; flex: 0 0 auto; }
+  button {
+    background: var(--card2); color: var(--text); border: 1px solid var(--border);
+    border-radius: 10px; padding: 9px 12px; font: inherit; cursor: pointer;
+  }
+  button:hover { border-color: var(--blue); }
+  button.primary { background: var(--blue); border-color: var(--blue); color: #fff; }
+  button.orange { background: var(--orange); border-color: var(--orange); color: #1a0d00; font-weight: 600; }
+  .filters { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
+  .filters button.on { background: var(--blue); border-color: var(--blue); color: #fff; }
+
+  .notice {
+    background: #2a2410; border: 1px solid #5a4a12; color: #f3e3a6;
+    border-radius: 10px; padding: 10px 12px; font-size: .88rem; margin: 10px 0 14px;
+  }
+
+  h2.cat { font-size: 1.05rem; margin: 22px 0 8px; color: var(--muted); font-weight: 600; display: flex; justify-content: space-between; }
+  .item {
+    display: flex; align-items: center; gap: 12px;
+    background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+    padding: 10px 12px; margin-bottom: 6px; cursor: pointer;
+  }
+  .item:hover { border-color: #3a4a85; }
+  .item.done { border-color: #1f5c3a; background: #12261f; }
+  .item.done .nome { color: #9ff0c0; }
+  .chk {
+    flex: 0 0 26px; height: 26px; border-radius: 8px; border: 2px solid #44518a;
+    display: grid; place-items: center; font-weight: 700; color: #fff; background: transparent;
+    padding: 0;
+  }
+  .item.done .chk { background: var(--green); border-color: var(--green); }
+  .info { flex: 1; min-width: 0; }
+  .nome { font-weight: 600; }
+  .desc { color: var(--muted); font-size: .9rem; }
+  .tag { font-size: .72rem; color: var(--warn); border: 1px solid #5a4a12; border-radius: 6px; padding: 1px 6px; margin-left: 6px; white-space: nowrap; }
+  .arrow { color: var(--muted); font-size: 1.2rem; }
+
+  /* Painel de detalhes */
+  .modal-bg { position: fixed; inset: 0; background: rgba(0,0,0,.65); display: none; align-items: flex-start; justify-content: center; padding: 30px 16px; overflow-y: auto; z-index: 10; }
+  .modal-bg.open { display: flex; }
+  .modal { background: var(--card); border: 1px solid var(--border); border-radius: 16px; width: 100%; max-width: 680px; padding: 18px; }
+  .modal h3 { margin: 0 0 2px; font-size: 1.3rem; }
+  .modal .pt { color: var(--muted); margin: 0 0 12px; }
+  .modal h4 { margin: 16px 0 6px; font-size: .95rem; color: var(--orange); }
+  .video { position: relative; width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 10px; overflow: hidden; }
+  .video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+  .row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+  .row input { flex: 1 1 240px; width: auto; }
+  .small { font-size: .82rem; color: var(--muted); }
+  .close { float: right; }
+  form.add { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 14px; margin-top: 12px; display: none; }
+  form.add.open { display: block; }
+  form.add label { display: block; font-size: .85rem; color: var(--muted); margin: 8px 0 4px; }
+  footer { color: var(--muted); font-size: .8rem; text-align: center; padding: 30px 16px; }
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <h1><span class="b">Rocket</span> <span class="o">League</span> · Conquistas</h1>
+    <p class="sub">Clique numa conquista para ver como pegar e assistir um vídeo. Marque a caixinha quando conseguir.</p>
+    <div class="progress">
+      <div class="bar"><div id="barFill"></div></div>
+      <div class="ptext"><span><b id="pDone">0</b> de <b id="pTotal">0</b> conquistas na lista</span><span id="pPct">0%</span></div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="notice">
+    O jogo tem 88 conquistas. Esta lista tem as que consegui confirmar em guias da internet; as marcadas com
+    <span class="tag">confirmar</span> têm descrição incerta. Use "Adicionar conquista" para completar com as que faltam
+    (copie da sua lista na Steam ou Epic). Seu progresso fica salvo neste navegador; use "Exportar backup" para guardar uma cópia.
+  </div>
+
+  <div class="tools">
+    <input type="search" id="busca" placeholder="Buscar conquista...">
+    <select id="catFiltro"><option value="">Todas as categorias</option></select>
+  </div>
+  <div class="filters">
+    <button data-f="todas" class="on">Todas</button>
+    <button data-f="tenho">Tenho</button>
+    <button data-f="falta">Não tenho</button>
+    <button class="orange" id="btnAdd">+ Adicionar conquista</button>
+    <button id="btnExport">Exportar backup</button>
+    <button id="btnImport">Importar backup</button>
+    <input type="file" id="fileImport" accept=".json,application/json" hidden>
+  </div>
+
+  <form class="add" id="formAdd">
+    <label>Nome (em inglês, como aparece no jogo)</label>
+    <input type="text" id="addNome" required>
+    <label>O que pede (em português)</label>
+    <input type="text" id="addDesc">
+    <label>Como pegar (opcional)</label>
+    <textarea id="addComo" rows="2"></textarea>
+    <label>Categoria</label>
+    <input type="text" id="addCat" value="Adicionadas por mim">
+    <div class="row"><button class="primary" type="submit">Salvar</button><button type="button" id="addCancel">Cancelar</button></div>
+  </form>
+
+  <div id="lista"></div>
+</main>
+
+<div class="modal-bg" id="modalBg">
+  <div class="modal" role="dialog" aria-modal="true">
+    <button class="close" id="mClose">Fechar ✕</button>
+    <h3 id="mNome"></h3>
+    <p class="pt" id="mDesc"></p>
+    <button id="mToggle" class="primary"></button>
+    <h4>Como pegar</h4>
+    <div id="mComo"></div>
+    <h4>Vídeo</h4>
+    <div id="mVideoBox"></div>
+    <div class="row">
+      <input type="text" id="mVideoUrl" placeholder="Cole aqui o link de um vídeo do YouTube">
+      <button id="mVideoSave">Usar este vídeo</button>
+    </div>
+    <div class="row">
+      <button id="mYt" class="orange">Procurar vídeos no YouTube</button>
+      <button id="mDel" hidden>Apagar esta conquista</button>
+    </div>
+    <p class="small">Dica: clique em "Procurar vídeos no YouTube", escolha um vídeo, copie o link e cole acima. Ele fica salvo e passa a tocar aqui dentro.</p>
+  </div>
+</div>
+
+<footer>Rocket League é marca da Psyonix. Lista feita para uso pessoal.</footer>
+
+<script>
+const BASE = "Jogo base";
+const UPD = "Atualizações gratuitas e modos extras";
+const SF = "DLC Supersonic Fury";
+const RBC = "DLC Revenge of the Battle-Cars";
+const CR = "DLC Chaos Run";
+
+// c = confirmada em mais de um guia; c:false = descrição incerta
+const CONQUISTAS = [
+  {id:"first-timer", nome:"First-Timer", cat:BASE, c:true, desc:"Marque seu primeiro gol.",
+   como:"Entre numa partida de Exibição (Exhibition) sozinho, sem bots, e empurre a bola para o gol adversário."},
+  {id:"pick-me-up", nome:"Pick-Me Up", cat:BASE, c:true, desc:"Colete 5 itens.",
+   como:"Itens chegam jogando: drops depois das partidas, recompensas do Rocket Pass gratuito e desafios. Basta jogar normalmente."},
+  {id:"stocked", nome:"Stocked", cat:BASE, c:true, desc:"Colete 150 itens.",
+   como:"Mesmo caminho do Pick-Me Up, só que leva mais tempo. Fazer os desafios semanais e o Rocket Pass gratuito acelera bastante."},
+  {id:"tinkerer", nome:"Tinkerer", cat:BASE, c:true, desc:"Personalize um espaço (slot) de um carro.",
+   como:"Vá em Garage e troque qualquer peça do carro: roda, boost, decal ou chapéu. Uma troca já basta."},
+  {id:"friendly", nome:"Friendly", cat:BASE, c:true, desc:"Jogue uma partida de Exibição.",
+   como:"Menu Play > Offline > Exhibition. Jogue a partida até o fim."},
+  {id:"traveler", nome:"Traveler", cat:BASE, c:true, desc:"Jogue uma partida em seis arenas diferentes.",
+   como:"Em Exibição, use os mutators para limite de 1 gol (Max Score 1) e troque de arena a cada partida até completar seis."},
+  {id:"pitch-veteran", nome:"Pitch Veteran", cat:BASE, c:true, desc:"Jogue 20 partidas em qualquer modo.",
+   como:"Sai naturalmente. Partidas curtas de Exibição com limite de 1 gol também contam."},
+  {id:"super-victorious", nome:"Super Victorious", cat:BASE, c:true, desc:"Vença 30 partidas em qualquer modo.",
+   como:"O jeito mais rápido é Exibição contra bots Rookie (os mais fáceis) com limite de 1 gol."},
+  {id:"turbocharger", nome:"Turbocharger", cat:BASE, c:true, desc:"Use o boost por 5 minutos no total.",
+   como:"O tempo soma entre partidas. Numa Exibição sem bots, pegue os boosts grandes e segure o botão de boost."},
+  {id:"far-far-away", nome:"Far, Far Away", cat:BASE, c:true, desc:"Dirija 50 km no total.",
+   como:"Sai jogando normalmente. Também dá para rodar pelo Free Play até completar."},
+  {id:"clean-sheet", nome:"Clean Sheet", cat:BASE, c:true, desc:"Vença uma partida sem sofrer gol.",
+   como:"Exibição contra bots Rookie, ou sem bots: faça um gol e não deixe o adversário marcar."},
+  {id:"rocketeer", nome:"Rocketeer", cat:BASE, c:true, desc:"Complete a temporada regular do modo Season.",
+   como:"Jogue o modo Season (temporada offline contra bots) até o fim da fase regular. Dá para escolher temporada curta e bots fáceis."},
+  {id:"champion", nome:"Champion", cat:BASE, c:true, desc:"Vença o campeonato do modo Season.",
+   como:"Depois da fase regular do modo Season, vença os playoffs. Com bots Rookie fica bem mais fácil."},
+  {id:"helens-pride", nome:"Helen's Pride", cat:BASE, c:true, desc:"Marque 6 gols numa mesma partida.",
+   como:"Exibição sozinho, sem bots: empurre a bola para o gol 6 vezes antes do tempo acabar."},
+  {id:"nice-hat", nome:"Nice Hat", cat:BASE, c:true, desc:"Marque 3 gols numa partida com um chapéu (topper) equipado.",
+   como:"Equipe qualquer topper na Garage e faça 3 gols numa Exibição sem bots."},
+  {id:"virtuoso", nome:"Virtuoso", cat:BASE, c:true, desc:"Desbloqueie todas as conquistas originais.",
+   como:"Vem sozinha quando você termina as outras conquistas do jogo base."},
+
+  {id:"rank-up", nome:"Rank Up", cat:UPD, c:true, desc:"Termine todas as partidas de colocação (placement) em qualquer playlist Competitiva.",
+   como:"Jogue as primeiras partidas de qualquer playlist Ranked até receber seu rank. Ganhar ou perder não importa."},
+  {id:"all-fours", nome:"All Fours", cat:UPD, c:true, desc:"Vença uma partida 4x4.",
+   como:"Jogue o modo Chaos (4v4) quando estiver disponível, ou uma partida privada 4x4, e vença."},
+  {id:"full-course", nome:"Full Course", cat:UPD, c:true, desc:"Marque 18 gols no total no Dropshot.",
+   como:"Jogue Dropshot (playlist extra ou Exibição). Os gols somam entre partidas."},
+  {id:"mad-scientist", nome:"Mad Scientist", cat:UPD, c:true, desc:"Jogue uma partida completa em 3 arenas Rocket Labs diferentes.",
+   como:"Em Exibição, escolha arenas experimentais (Rocket Labs, como Pillars, Cosmic, Double Goal ou Underpass) e termine 3 partidas, uma em cada."},
+  {id:"gladiator", nome:"Gladiator", cat:UPD, c:true, desc:"Jogue uma partida na arena Utopia Coliseum.",
+   como:"Exibição > escolha Utopia Coliseum e jogue até o fim."},
+  {id:"fast-break", nome:"Fast Break", cat:UPD, c:true, desc:"Faça pelo menos 2 enterradas no primeiro minuto de uma partida de Hoops.",
+   como:"Exibição de Hoops sem bots: logo no início, leve a bola até a cesta e enterre duas vezes antes de 4:00 no relógio."},
+  {id:"buzzer-beater", nome:"Buzzer Beater", cat:UPD, c:true, desc:"Vença uma partida de Hoops estando empatado ou atrás faltando 30 segundos.",
+   como:"Exibição de Hoops contra bots Rookie: deixe o bot empatar ou passar na frente, espere o relógio chegar a 0:30 e vire o jogo."},
+  {id:"icing-the-cake", nome:"Icing the Cake", cat:UPD, c:true, desc:"No Snow Day, marque um gol do seu lado do campo.",
+   como:"Exibição de Snow Day sem bots: posicione o disco no seu campo e chute forte para o gol adversário."},
+  {id:"left-wing-right-wing", nome:"Left Wing, Right Wing", cat:UPD, c:true, desc:"Vença uma partida de Snow Day pelo time Azul e outra pelo time Laranja.",
+   como:"Duas Exibições de Snow Day sem bots: vença uma como Azul e outra como Laranja."},
+  {id:"stopped-cold", nome:"Stopped Cold", cat:UPD, c:true, desc:"No Rumble, congele um chute do adversário antes que ele vire gol.",
+   como:"Jogue Rumble e, quando pegar o poder Freezer, use na bola que está indo para o seu gol."},
+  {id:"budding-artist", nome:"Budding Artist", cat:UPD, c:true, desc:"Colete um item pintado (Painted).",
+   como:"Itens pintados caem em drops e no Rocket Pass. Qualquer item com cor (Crimson, Sky Blue etc.) conta."},
+  {id:"certifiable", nome:"Certifiable", cat:UPD, c:false, desc:"Colete um item certificado (Certified).",
+   como:"Itens certificados (com título tipo Striker, Goalkeeper) caem em drops. Descrição a confirmar na sua lista da Steam/Epic."},
+  {id:"one-better", nome:"One Better", cat:UPD, c:false, desc:"Descrição a confirmar.",
+   como:"Não consegui confirmar o que essa conquista pede. Confira na sua lista da Steam ou Epic e veja um vídeo pelo botão abaixo."},
+  {id:"rocket-repleter", nome:"Rocket Repleter", cat:UPD, c:false, desc:"Faça 535 chutes a gol (a confirmar).",
+   como:"Chutes a gol somam entre partidas. Exibição sem bots chutando sempre no gol acelera."},
+
+  {id:"winning-is-winning", nome:"Winning is Winning", cat:SF, c:true, desc:"Vença o campeonato do modo Season usando o Dominus em todas as partidas.",
+   como:"Equipe o Dominus, inicie uma temporada curta com bots Rookie e não troque de carro até ganhar os playoffs."},
+  {id:"an-inch-and-6-2-miles", nome:"An Inch and 6.2 Miles", cat:SF, c:false, desc:"Dirija 10 km (6,2 milhas) com o Takumi (a confirmar).",
+   como:"Equipe o Takumi e jogue ou rode no Free Play até somar a distância."},
+  {id:"ride-or-die", nome:"Ride or Die", cat:SF, c:true, desc:"Equipe Dominus ou Takumi com qualquer decal e vença uma partida.",
+   como:"Garage > escolha Dominus ou Takumi > coloque um decal > vença uma Exibição contra bots Rookie."},
+  {id:"dont-look-back", nome:"Don't Look Back", cat:SF, c:true, desc:"Use o boost Burnout ou Nitrous por 10 minutos no total.",
+   como:"Equipe o boost Burnout ou Nitrous na Garage e jogue. O tempo de boost vai somando entre partidas."},
+  {id:"family-not-friends", nome:"Family, Not Friends", cat:SF, c:false, desc:"Descrição a confirmar.",
+   como:"Não consegui confirmar o que essa conquista pede. Confira na sua lista da Steam ou Epic e veja um vídeo pelo botão abaixo."},
+  {id:"drift-king", nome:"Drift King", cat:SF, c:false, desc:"Descrição a confirmar.",
+   como:"Não consegui confirmar o que essa conquista pede. Confira na sua lista da Steam ou Epic e veja um vídeo pelo botão abaixo."},
+
+  {id:"survival-of-the-fittest", nome:"Survival of the Fittest", cat:RBC, c:true, desc:"Com um topper equipado, vença uma partida contra bots Unfair.",
+   como:"Equipe um chapéu, inicie uma Exibição 1x1 contra bot no nível Unfair (o mais difícil) e vença. Em 1x1 fica mais controlável."},
+  {id:"heartbreaker", nome:"Heartbreaker", cat:RBC, c:true, desc:"Vença uma partida contra bots All-Star com um decal equipado.",
+   como:"Coloque um decal no carro e vença uma Exibição 1x1 contra bot All-Star."},
+  {id:"natural-progression", nome:"Natural Progression", cat:RBC, c:true, desc:"Vença uma partida online com Backfire, Scarab ou Zippy.",
+   como:"Equipe um desses carros e vença uma partida online. Partida privada também conta."},
+  {id:"throwback", nome:"Throwback", cat:RBC, c:true, desc:"Use o boost Standard ou Accelerato com Octane ou Backfire na arena Urban Central.",
+   como:"Equipe Octane ou Backfire com boost Standard ou Accelerato e jogue uma Exibição em Urban Central usando o boost."},
+  {id:"hot-shot-part-two", nome:"Hot Shot, Part Two", cat:RBC, c:true, desc:"Ganhe o prêmio de MVP (melhor jogador) usando Backfire, Scarab ou Zippy.",
+   como:"Jogue com um desses carros contra bots Rookie e termine a partida com a maior pontuação do time vencedor."},
+
+  {id:"my-world-is-fire", nome:"My World is Fire", cat:CR, c:false, desc:"Descrição a confirmar.",
+   como:"Não consegui confirmar o que essa conquista pede. Confira na sua lista da Steam ou Epic e veja um vídeo pelo botão abaixo."},
+  {id:"spectacular", nome:"Spectacular", cat:CR, c:false, desc:"Descrição a confirmar.",
+   como:"Não consegui confirmar o que essa conquista pede. Confira na sua lista da Steam ou Epic e veja um vídeo pelo botão abaixo."},
+  {id:"savage", nome:"Savage", cat:CR, c:false, desc:"Destrua 3 bots adversários na arena Wasteland (a confirmar).",
+   como:"Exibição em Wasteland contra bots Rookie: acerte os carros deles em velocidade supersônica para destruí-los."},
+  {id:"ruthless", nome:"Ruthless", cat:CR, c:false, desc:"Descrição a confirmar.",
+   como:"Não consegui confirmar o que essa conquista pede. Confira na sua lista da Steam ou Epic e veja um vídeo pelo botão abaixo."}
+];
+
+const KEY = "rl-conquistas-v1";
+let estado = { feitas: {}, videos: {}, extras: [] };
+
+function carregar() {
+  try {
+    const s = JSON.parse(localStorage.getItem(KEY));
+    if (s) estado = { feitas: s.feitas || {}, videos: s.videos || {}, extras: s.extras || [] };
+  } catch (e) {}
+}
+function salvar() {
+  try { localStorage.setItem(KEY, JSON.stringify(estado)); } catch (e) {}
+}
+function todas() { return CONQUISTAS.concat(estado.extras); }
+
+let filtro = "todas";
+let aberta = null;
+
+function esc(s) { return String(s || "").replace(/[&<>"']/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch])); }
+
+function render() {
+  const lista = todas();
+  const busca = document.getElementById("busca").value.trim().toLowerCase();
+  const cat = document.getElementById("catFiltro").value;
+
+  const sel = document.getElementById("catFiltro");
+  const cats = [...new Set(lista.map(a => a.cat))];
+  if (sel.options.length - 1 !== cats.length) {
+    sel.innerHTML = '<option value="">Todas as categorias</option>' + cats.map(c => `<option>${esc(c)}</option>`).join("");
+    sel.value = cats.includes(cat) ? cat : "";
+  }
+
+  const feitas = lista.filter(a => estado.feitas[a.id]).length;
+  const pct = lista.length ? Math.round(feitas / lista.length * 100) : 0;
+  document.getElementById("pDone").textContent = feitas;
+  document.getElementById("pTotal").textContent = lista.length;
+  document.getElementById("pPct").textContent = pct + "%";
+  document.getElementById("barFill").style.width = pct + "%";
+
+  let html = "";
+  for (const c of cats) {
+    if (cat && c !== cat) continue;
+    const itens = lista.filter(a => a.cat === c).filter(a => {
+      const ok = !!estado.feitas[a.id];
+      if (filtro === "tenho" && !ok) return false;
+      if (filtro === "falta" && ok) return false;
+      if (busca && !(a.nome + " " + a.desc).toLowerCase().includes(busca)) return false;
+      return true;
+    });
+    if (!itens.length) continue;
+    const doneCat = lista.filter(a => a.cat === c && estado.feitas[a.id]).length;
+    const totCat = lista.filter(a => a.cat === c).length;
+    html += `<h2 class="cat"><span>${esc(c)}</span><span>${doneCat}/${totCat}</span></h2>`;
+    for (const a of itens) {
+      const ok = !!estado.feitas[a.id];
+      html += `<div class="item ${ok ? "done" : ""}" data-id="${esc(a.id)}">
+        <button class="chk" data-chk="${esc(a.id)}" aria-label="Marcar ${esc(a.nome)}">${ok ? "✓" : ""}</button>
+        <div class="info"><div class="nome">${esc(a.nome)}${a.c === false ? '<span class="tag">confirmar</span>' : ""}</div>
+        <div class="desc">${esc(a.desc)}</div></div>
+        <span class="arrow">›</span></div>`;
+    }
+  }
+  document.getElementById("lista").innerHTML = html || '<p class="small">Nenhuma conquista encontrada.</p>';
+}
+
+function idVideo(url) {
+  const m = String(url).match(/(?:youtu\.be\/|v=|\/shorts\/|\/embed\/|\/live\/)([A-Za-z0-9_-]{11})/);
+  return m ? m[1] : null;
+}
+function ytBusca(a) {
+  return "https://www.youtube.com/results?search_query=" + encodeURIComponent("Rocket League " + a.nome + " achievement");
+}
+
+function abrir(id) {
+  const a = todas().find(x => x.id === id);
+  if (!a) return;
+  aberta = a;
+  document.getElementById("mNome").textContent = a.nome;
+  document.getElementById("mDesc").textContent = a.desc;
+  document.getElementById("mComo").textContent = a.como || "Sem dica ainda. Veja um vídeo pelo botão abaixo.";
+  document.getElementById("mDel").hidden = !estado.extras.some(x => x.id === id);
+  atualizarToggle();
+  mostrarVideo();
+  document.getElementById("modalBg").classList.add("open");
+}
+function atualizarToggle() {
+  const ok = !!estado.feitas[aberta.id];
+  const b = document.getElementById("mToggle");
+  b.textContent = ok ? "✓ Já tenho (clique para desmarcar)" : "Marcar como conquistada";
+  b.className = ok ? "" : "primary";
+}
+function mostrarVideo() {
+  const box = document.getElementById("mVideoBox");
+  const vid = estado.videos[aberta.id];
+  document.getElementById("mVideoUrl").value = vid ? "https://youtu.be/" + vid : "";
+  if (vid) {
+    box.innerHTML = `<div class="video"><iframe src="https://www.youtube.com/embed/${vid}" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+      <p class="small">Se o vídeo não carregar aqui, <a href="https://youtu.be/${vid}" target="_blank" rel="noopener" style="color:var(--blue)">abra no YouTube</a>.</p>`;
+  } else {
+    box.innerHTML = '<p class="small">Nenhum vídeo salvo para esta conquista ainda.</p>';
+  }
+}
+function fechar() { document.getElementById("modalBg").classList.remove("open"); aberta = null; }
+
+function alternar(id) {
+  if (estado.feitas[id]) delete estado.feitas[id]; else estado.feitas[id] = true;
+  salvar(); render();
+}
+
+document.getElementById("lista").addEventListener("click", e => {
+  const chk = e.target.closest("[data-chk]");
+  if (chk) { e.stopPropagation(); alternar(chk.dataset.chk); return; }
+  const it = e.target.closest(".item");
+  if (it) abrir(it.dataset.id);
+});
+document.getElementById("busca").addEventListener("input", render);
+document.getElementById("catFiltro").addEventListener("change", render);
+document.querySelectorAll(".filters [data-f]").forEach(b => b.addEventListener("click", () => {
+  filtro = b.dataset.f;
+  document.querySelectorAll(".filters [data-f]").forEach(x => x.classList.toggle("on", x === b));
+  render();
+}));
+
+document.getElementById("mClose").onclick = fechar;
+document.getElementById("modalBg").addEventListener("click", e => { if (e.target.id === "modalBg") fechar(); });
+document.addEventListener("keydown", e => { if (e.key === "Escape") fechar(); });
+document.getElementById("mToggle").onclick = () => { alternar(aberta.id); atualizarToggle(); };
+document.getElementById("mYt").onclick = () => window.open(ytBusca(aberta), "_blank", "noopener");
+document.getElementById("mVideoSave").onclick = () => {
+  const url = document.getElementById("mVideoUrl").value.trim();
+  if (!url) { delete estado.videos[aberta.id]; salvar(); mostrarVideo(); return; }
+  const v = idVideo(url);
+  if (!v) { alert("Não reconheci esse link. Cole um link do YouTube, por exemplo https://www.youtube.com/watch?v=..."); return; }
+  estado.videos[aberta.id] = v; salvar(); mostrarVideo();
+};
+document.getElementById("mDel").onclick = () => {
+  if (!confirm("Apagar a conquista \"" + aberta.nome + "\"?")) return;
+  estado.extras = estado.extras.filter(x => x.id !== aberta.id);
+  delete estado.feitas[aberta.id]; delete estado.videos[aberta.id];
+  salvar(); fechar(); render();
+};
+
+const form = document.getElementById("formAdd");
+document.getElementById("btnAdd").onclick = () => { form.classList.toggle("open"); document.getElementById("addNome").focus(); };
+document.getElementById("addCancel").onclick = () => form.classList.remove("open");
+form.addEventListener("submit", e => {
+  e.preventDefault();
+  const nome = document.getElementById("addNome").value.trim();
+  if (!nome) return;
+  estado.extras.push({
+    id: "extra-" + Date.now(), nome,
+    desc: document.getElementById("addDesc").value.trim(),
+    como: document.getElementById("addComo").value.trim(),
+    cat: document.getElementById("addCat").value.trim() || "Adicionadas por mim"
+  });
+  salvar(); form.reset(); document.getElementById("addCat").value = "Adicionadas por mim";
+  form.classList.remove("open"); render();
+});
+
+document.getElementById("btnExport").onclick = () => {
+  const blob = new Blob([JSON.stringify(estado, null, 2)], { type: "application/json" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "backup-conquistas-rocket-league.json";
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+};
+document.getElementById("btnImport").onclick = () => document.getElementById("fileImport").click();
+document.getElementById("fileImport").addEventListener("change", e => {
+  const f = e.target.files[0]; if (!f) return;
+  const r = new FileReader();
+  r.onload = () => {
+    try {
+      const s = JSON.parse(r.result);
+      estado = { feitas: s.feitas || {}, videos: s.videos || {}, extras: s.extras || [] };
+      salvar(); render(); alert("Backup importado!");
+    } catch (err) { alert("Esse arquivo não é um backup válido."); }
+  };
+  r.readAsText(f); e.target.value = "";
+});
+
+carregar();
+render();
+</script>
+</body>
+</html>
