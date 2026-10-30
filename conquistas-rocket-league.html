@@ -113,9 +113,8 @@
 
 <main class="wrap">
   <div class="notice">
-    O jogo tem 88 troféus: 36 do jogo base (completos aqui, tirados dos seus prints do PlayStation) e 52 de pacotes extras.
-    Dos pacotes extras, esta lista tem só parte; as marcadas com <span class="tag">confirmar</span> têm descrição incerta.
-    Use "Adicionar conquista" para completar. Seu progresso fica salvo neste navegador; use "Exportar backup" para guardar uma cópia.
+    Os 88 troféus do Rocket League no PlayStation: 36 do jogo base e 52 dos pacotes extras, com os nomes da sua lista do PS.
+    Seu progresso fica salvo neste navegador; use "Exportar backup" para guardar uma cópia.
   </div>
 
   <div class="tools">
@@ -173,10 +172,15 @@
 
 <script>
 const BASE = "Jogo base (36 troféus)";
-const UPD = "Pacotes extras e modos (DLC)";
-const SF = "DLC Supersonic Fury";
-const RBC = "DLC Revenge of the Battle-Cars";
-const CR = "DLC Chaos Run";
+const P1 = "Pacote 4x4 e Utopia Coliseum";
+const SF = "Pacote Supersonic Fury";
+const RBC = "Pacote Revenge of the Battle-Cars";
+const CR = "Pacote Chaos Run";
+const NT = "Pacote Neo Tokyo (Hoops, Snow Day e itens)";
+const AQ = "Pacote AquaDome (Rumble)";
+const SB = "Pacote Starbase ARC (Dropshot)";
+const CF = "Pacote Champions Field (online)";
+const CL = "Pacote Clubes";
 
 // c = confirmada em mais de um guia; c:false = descrição incerta
 const CONQUISTAS = [
@@ -248,69 +252,119 @@ const CONQUISTAS = [
   {id:"pitch-veteran", pt:"Veterano da pista", nome:"Pitch Veteran", cat:BASE, t:1, desc:"Dispute um total de 20 partidas em qualquer modo.",
    como:"Sai naturalmente. Exibições curtas também contam."},
 
-  {id:"nice-hat", nome:"Nice Hat", cat:UPD, c:true, desc:"Marque 3 gols numa partida com um chapéu (topper) equipado.",
-   como:"Equipe qualquer topper na Garage e faça 3 gols numa Exibição sem bots."},
-  {id:"rank-up", nome:"Rank Up", cat:UPD, c:true, desc:"Termine todas as partidas de colocação (placement) em qualquer playlist Competitiva.",
-   como:"Jogue as primeiras partidas de qualquer playlist Ranked até receber seu rank. Ganhar ou perder não importa."},
-  {id:"all-fours", nome:"All Fours", cat:UPD, c:true, desc:"Vença uma partida 4x4.",
-   como:"Jogue o modo Chaos (4v4) quando estiver disponível, ou uma partida privada 4x4, e vença."},
-  {id:"full-course", nome:"Full Course", cat:UPD, c:true, desc:"Marque 18 gols no total no Dropshot.",
-   como:"Jogue Dropshot (playlist extra ou Exibição). Os gols somam entre partidas."},
-  {id:"mad-scientist", nome:"Mad Scientist", cat:UPD, c:true, desc:"Jogue uma partida completa em 3 arenas Rocket Labs diferentes.",
-   como:"Em Exibição, escolha arenas experimentais (Rocket Labs, como Pillars, Cosmic, Double Goal ou Underpass) e termine 3 partidas, uma em cada."},
-  {id:"gladiator", nome:"Gladiator", cat:UPD, c:true, desc:"Jogue uma partida na arena Utopia Coliseum.",
-   como:"Exibição > escolha Utopia Coliseum e jogue até o fim."},
-  {id:"fast-break", nome:"Fast Break", cat:UPD, c:true, desc:"Faça pelo menos 2 enterradas no primeiro minuto de uma partida de Hoops.",
-   como:"Exibição de Hoops sem bots: logo no início, leve a bola até a cesta e enterre duas vezes antes de 4:00 no relógio."},
-  {id:"buzzer-beater", nome:"Buzzer Beater", cat:UPD, c:true, desc:"Vença uma partida de Hoops estando empatado ou atrás faltando 30 segundos.",
-   como:"Exibição de Hoops contra bots Rookie: deixe o bot empatar ou passar na frente, espere o relógio chegar a 0:30 e vire o jogo."},
-  {id:"icing-the-cake", nome:"Icing the Cake", cat:UPD, c:true, desc:"No Snow Day, marque um gol do seu lado do campo.",
-   como:"Exibição de Snow Day sem bots: posicione o disco no seu campo e chute forte para o gol adversário."},
-  {id:"left-wing-right-wing", nome:"Left Wing, Right Wing", cat:UPD, c:true, desc:"Vença uma partida de Snow Day pelo time Azul e outra pelo time Laranja.",
-   como:"Duas Exibições de Snow Day sem bots: vença uma como Azul e outra como Laranja."},
-  {id:"stopped-cold", nome:"Stopped Cold", cat:UPD, c:true, desc:"No Rumble, congele um chute do adversário antes que ele vire gol.",
-   como:"Jogue Rumble e, quando pegar o poder Freezer, use na bola que está indo para o seu gol."},
-  {id:"budding-artist", nome:"Budding Artist", cat:UPD, c:true, desc:"Colete um item pintado (Painted).",
-   como:"Itens pintados caem em drops e no Rocket Pass. Qualquer item com cor (Crimson, Sky Blue etc.) conta."},
-  {id:"certifiable", nome:"Certifiable", cat:UPD, c:false, desc:"Colete um item certificado (Certified).",
-   como:"Itens certificados (com título tipo Striker, Goalkeeper) caem em drops. Descrição a confirmar na sua lista da Steam/Epic."},
-  {id:"one-better", nome:"One Better", cat:UPD, c:false, desc:"Descrição a confirmar.",
-   como:"Não consegui confirmar o que essa conquista pede. Confira na sua lista da Steam ou Epic e veja um vídeo pelo botão abaixo."},
-  {id:"rocket-repleter", nome:"Rocket Repleter", cat:UPD, c:false, desc:"Faça 535 chutes a gol (a confirmar).",
-   como:"Chutes a gol somam entre partidas. Exibição sem bots chutando sempre no gol acelera."},
+  // Pacotes extras: 52 troféus conforme a lista do PlayStation em português
+  {id:"all-fours", pt:"De gatas", nome:"All Fours", cat:P1, t:1, desc:"Vença um jogo 4x4.",
+   como:"Jogue o modo Chaos (4x4) ou uma Exibição 4x4 contra bots Rookie e vença."},
+  {id:"gladiator", pt:"Gladiador", nome:"Gladiator", cat:P1, t:1, desc:"Faça um jogo no Utopia Coliseum.",
+   como:"Exibição > escolha a arena Utopia Coliseum e jogue até o fim."},
+  {id:"ases-pelos-ares", pt:"Ases pelos ares", nome:"", cat:P1, t:1, desc:"Marque um gol aéreo.",
+   como:"Exibição sem bots: jogue a bola para o alto, pule, use o boost no ar e acerte a bola para o gol."},
 
-  {id:"winning-is-winning", nome:"Winning is Winning", cat:SF, c:true, desc:"Vença o campeonato do modo Season usando o Dominus em todas as partidas.",
-   como:"Equipe o Dominus, inicie uma temporada curta com bots Rookie e não troque de carro até ganhar os playoffs."},
-  {id:"an-inch-and-6-2-miles", nome:"An Inch and 6.2 Miles", cat:SF, c:false, desc:"Dirija 10 km (6,2 milhas) com o Takumi (a confirmar).",
-   como:"Equipe o Takumi e jogue ou rode no Free Play até somar a distância."},
-  {id:"ride-or-die", nome:"Ride or Die", cat:SF, c:true, desc:"Equipe Dominus ou Takumi com qualquer decal e vença uma partida.",
-   como:"Garage > escolha Dominus ou Takumi > coloque um decal > vença uma Exibição contra bots Rookie."},
-  {id:"dont-look-back", nome:"Don't Look Back", cat:SF, c:true, desc:"Use o boost Burnout ou Nitrous por 10 minutos no total.",
-   como:"Equipe o boost Burnout ou Nitrous na Garage e jogue. O tempo de boost vai somando entre partidas."},
-  {id:"family-not-friends", nome:"Family, Not Friends", cat:SF, c:false, desc:"Descrição a confirmar.",
-   como:"Não consegui confirmar o que essa conquista pede. Confira na sua lista da Steam ou Epic e veja um vídeo pelo botão abaixo."},
-  {id:"drift-king", nome:"Drift King", cat:SF, c:false, desc:"Descrição a confirmar.",
-   como:"Não consegui confirmar o que essa conquista pede. Confira na sua lista da Steam ou Epic e veja um vídeo pelo botão abaixo."},
+  {id:"winning-is-winning", pt:"O importante é vencer", nome:"Winning is Winning", cat:SF, desc:"Vença um campeonato da temporada usando Dominus em todas as partidas.",
+   como:"Equipe o Dominus, inicie uma temporada curta no modo Season com bots Rookie e não troque de carro até ganhar os playoffs."},
+  {id:"an-inch-and-6-2-miles", pt:"2,5 centímetros e 10 quilômetros", nome:"An Inch and 6.2 Miles", cat:SF, desc:"Dirija 10 km com as rodas Vortex, Cristiano ou Spinner.",
+   como:"Equipe uma dessas rodas na Garage e jogue normalmente, ou rode no Free Play até somar 10 km."},
+  {id:"ride-or-die", pt:"Conduzir ou morrer", nome:"Ride or Die", cat:SF, desc:"Equipe Dominus ou Takumi com qualquer adesivo e vença um jogo.",
+   como:"Garage > Dominus ou Takumi > coloque um decal (adesivo) > vença uma Exibição contra bots Rookie."},
+  {id:"dont-look-back", pt:"Não olhes para trás", nome:"Don't Look Back", cat:SF, desc:"Use o boost Térmico, Queima Pneu ou Nitro por um total de 10 minutos.",
+   como:"Equipe um desses boosts na Garage. O tempo de boost vai somando entre partidas."},
+  {id:"family-not-friends", pt:"Família, não amigos", nome:"Family, Not Friends", cat:SF, desc:"Jogue um jogo completo com Dominus ou Takumi.",
+   como:"Equipe Dominus ou Takumi e termine qualquer partida."},
+  {id:"drift-king", pt:"Drift King", nome:"Drift King", cat:SF, desc:"Faça 180 derrapadas com Dominus ou Takumi.",
+   como:"Com Dominus ou Takumi, segure o botão de derrapagem (powerslide) e faça curvas. Soma entre partidas; Free Play é o jeito mais rápido."},
 
-  {id:"survival-of-the-fittest", nome:"Survival of the Fittest", cat:RBC, c:true, desc:"Com um topper equipado, vença uma partida contra bots Unfair.",
-   como:"Equipe um chapéu, inicie uma Exibição 1x1 contra bot no nível Unfair (o mais difícil) e vença. Em 1x1 fica mais controlável."},
-  {id:"heartbreaker", nome:"Heartbreaker", cat:RBC, c:true, desc:"Vença uma partida contra bots All-Star com um decal equipado.",
+  {id:"survival-of-the-fittest", pt:"Sobrevivência do mais Forte", nome:"Survival of the Fittest", cat:RBC, desc:"Equipe um acessório e vença uma partida contra bot Injusto (Unfair).",
+   como:"Equipe um chapéu (topper), inicie uma Exibição 1x1 contra bot no nível Unfair (o mais difícil) e vença."},
+  {id:"heartbreaker", pt:"Destruição de Coração", nome:"Heartbreaker", cat:RBC, desc:"Vença um jogo contra bots Ídolos (All-Star) com um adesivo equipado.",
    como:"Coloque um decal no carro e vença uma Exibição 1x1 contra bot All-Star."},
-  {id:"natural-progression", nome:"Natural Progression", cat:RBC, c:true, desc:"Vença uma partida online com Backfire, Scarab ou Zippy.",
-   como:"Equipe um desses carros e vença uma partida online. Partida privada também conta."},
-  {id:"throwback", nome:"Throwback", cat:RBC, c:true, desc:"Use o boost Standard ou Accelerato com Octane ou Backfire na arena Urban Central.",
-   como:"Equipe Octane ou Backfire com boost Standard ou Accelerato e jogue uma Exibição em Urban Central usando o boost."},
-  {id:"hot-shot-part-two", nome:"Hot Shot, Part Two", cat:RBC, c:true, desc:"Ganhe o prêmio de MVP (melhor jogador) usando Backfire, Scarab ou Zippy.",
+  {id:"natural-progression", pt:"Progressão Natural", nome:"Natural Progression", cat:RBC, desc:"Vença uma partida online com Backfire, Scarab ou Zippy.",
+   como:"Equipe um desses carros e vença uma partida online. Partida privada com um amigo também conta."},
+  {id:"throwback", pt:"Retrocesso", nome:"Throwback", cat:RBC, desc:"Use o boost Accelerato ou Padrão com Octane ou Backfire jogando em Central Urbana.",
+   como:"Equipe Octane ou Backfire com boost Standard (Padrão) ou Accelerato e jogue uma Exibição em Urban Central usando o boost."},
+  {id:"hot-shot-part-two", pt:"Estrela Principal, Parte Dois", nome:"Hot Shot, Part Two", cat:RBC, desc:"Seja destaque (MVP) usando Backfire, Scarab ou Zippy.",
    como:"Jogue com um desses carros contra bots Rookie e termine a partida com a maior pontuação do time vencedor."},
 
-  {id:"my-world-is-fire", nome:"My World is Fire", cat:CR, c:false, desc:"Descrição a confirmar.",
-   como:"Não consegui confirmar o que essa conquista pede. Confira na sua lista da Steam ou Epic e veja um vídeo pelo botão abaixo."},
-  {id:"spectacular", nome:"Spectacular", cat:CR, c:false, desc:"Descrição a confirmar.",
-   como:"Não consegui confirmar o que essa conquista pede. Confira na sua lista da Steam ou Epic e veja um vídeo pelo botão abaixo."},
-  {id:"savage", nome:"Savage", cat:CR, c:false, desc:"Destrua 3 bots adversários na arena Wasteland (a confirmar).",
-   como:"Exibição em Wasteland contra bots Rookie: acerte os carros deles em velocidade supersônica para destruí-los."},
-  {id:"ruthless", nome:"Ruthless", cat:CR, c:false, desc:"Descrição a confirmar.",
-   como:"Não consegui confirmar o que essa conquista pede. Confira na sua lista da Steam ou Epic e veja um vídeo pelo botão abaixo."}
+  {id:"my-world-is-fire", pt:"Meu mundo é fogo", nome:"My World is Fire", cat:CR, desc:"Equipe o boost Lança-chamas e vença uma partida online 4x4.",
+   como:"Equipe o boost Flamethrower (Lança-chamas) e vença uma partida do modo Chaos (4x4) online."},
+  {id:"spectacular", pt:"Espetacular", nome:"Spectacular", cat:CR, desc:"Com Merc ou Grog, faça 10 gols contra bots de nível Profissional ou maior.",
+   como:"Exibição 1x1 contra bot Pro com Merc ou Grog. Os gols somam entre partidas."},
+  {id:"savage", pt:"Selvagem", nome:"Savage", cat:CR, desc:"Com Breakout ou Ripper, faça 10 gols contra bots de nível Profissional ou maior.",
+   como:"Exibição 1x1 contra bot Pro com Breakout ou Ripper. Os gols somam entre partidas."},
+  {id:"ruthless", pt:"Impiedoso", nome:"Ruthless", cat:CR, desc:"Faça um total de 50 chutes ao gol usando Merc, Grog ou Ripper.",
+   como:"Exibição sem bots com um desses carros, chutando sempre no gol. Soma entre partidas."},
+  {id:"detonador-psico-master", pt:"Detonador Psico-Master", nome:"", cat:CR, t:1, desc:"Destrua 3 bots adversários em Wasteland.",
+   como:"Exibição em Wasteland contra bots Rookie: bata nos carros deles em velocidade supersônica para destruí-los."},
+
+  {id:"mad-scientist", pt:"Cientista Louco", nome:"Mad Scientist", cat:NT, desc:"Jogue um jogo completo em 3 arenas Rocket Labs diferentes.",
+   como:"Em Exibição, escolha arenas experimentais (Rocket Labs, como Pillars, Cosmic, Double Goal ou Underpass) e termine 3 partidas, uma em cada."},
+  {id:"icing-the-cake", pt:"Doce Frio", nome:"Icing the Cake", cat:NT, t:1, desc:"No Dia da Neve (Snow Day), marque um gol do seu lado do gelo.",
+   como:"Exibição de Snow Day sem bots: posicione o disco no seu campo e chute forte para o gol adversário."},
+  {id:"left-wing-right-wing", pt:"Ala Esquerda, Ala Direita", nome:"Left Wing, Right Wing", cat:NT, desc:"Vença um jogo de Dia da Neve com o time Laranja e outro com o Azul.",
+   como:"Duas Exibições de Snow Day sem bots: vença uma como Azul e outra como Laranja."},
+  {id:"fast-break", pt:"Super Rápido", nome:"Fast Break", cat:NT, desc:"Faça 2 enterradas no primeiro minuto de um jogo de Cestos (Hoops).",
+   como:"Exibição de Hoops sem bots: logo no início, leve a bola até a cesta e enterre duas vezes antes do relógio chegar a 4:00."},
+  {id:"buzzer-beater", pt:"Até ao Fim!", nome:"Buzzer Beater", cat:NT, desc:"Vença um jogo de Cestos estando empatado ou perdendo quando faltarem 30 segundos.",
+   como:"Exibição de Hoops contra bot Rookie: deixe o placar empatado ou o bot na frente até 0:30, aí vire o jogo."},
+  {id:"budding-artist", pt:"Artista em Ascensão", nome:"Budding Artist", cat:NT, t:1, desc:"Colecione um item pintado.",
+   como:"Itens pintados (com cor) caem em drops e no Rocket Pass."},
+  {id:"one-better", pt:"Ainda Melhor", nome:"One Better", cat:NT, t:1, desc:"Aumente o nível de um item certificado.",
+   como:"Equipe um item certificado (com título tipo Striker ou Goalkeeper) e jogue até o contador dele subir de nível."},
+  {id:"certifiable", pt:"Certificado", nome:"Certifiable", cat:NT, t:1, desc:"Alcance o nível Veterano num item certificado.",
+   como:"Continue usando o mesmo item certificado até ele chegar ao nível Veteran."},
+
+  {id:"gg", pt:"GG", nome:"", cat:AQ, t:1, desc:"Consiga o prêmio MVP numa partida com prorrogação.",
+   como:"Exibição contra bot Rookie: deixe empatado até o fim, vença na prorrogação e termine com a maior pontuação."},
+  {id:"triade", pt:"Tríade", nome:"", cat:AQ, t:1, desc:"Marque um gol, faça uma defesa e dê uma assistência num único jogo.",
+   como:"Exibição 2x2 ou 3x3 contra bots Rookie: faça um gol, salve uma bola no seu gol e dê um passe que vire gol do seu companheiro."},
+  {id:"poder-infinito", pt:"Poder infinito!", nome:"", cat:AQ, t:1, desc:"Ative todos os poderes no modo Rumble.",
+   como:"Jogue Rumble e use todos os tipos de poder que aparecerem. Soma entre partidas."},
+  {id:"stopped-cold", pt:"Congelado", nome:"Stopped Cold", cat:AQ, desc:"No Rumble, congele um chute do oponente antes que ele entre no gol.",
+   como:"Jogue Rumble e, quando pegar o poder Freezer, use na bola que está indo para o seu gol."},
+  {id:"tartaruga-marinha", pt:"Tartaruga marinha", nome:"", cat:AQ, desc:"Vá para o AquaDome e marque um gol enquanto estiver de costas (de cabeça para baixo).",
+   como:"Exibição no AquaDome sem bots: deixe a bola perto do gol, vire o carro de cabeça para baixo e empurre a bola para dentro."},
+  {id:"levanta-sr-bubbles", pt:"Levanta, sr. Bubbles!", nome:"", cat:AQ, desc:"Faça um gol aéreo jogando no AquaDome.",
+   como:"Exibição no AquaDome sem bots: jogue a bola para o alto e acerte no ar para o gol."},
+  {id:"rocket-repleter", pt:"Rocket equipado", nome:"", cat:AQ, t:1, desc:"Chute 535 vezes no gol.",
+   como:"Chutes a gol somam entre partidas. Exibição sem bots chutando sempre no gol acelera."},
+
+  {id:"eleitor-registrado", pt:"Eleitor registrado", nome:"", cat:SB, desc:"Vá em Preferências da Arena e use todos os seus votos.",
+   como:"Configurações > Arena Preferences (Preferências da Arena): marque o máximo de arenas favoritas permitido."},
+  {id:"anjos-do-espaco", pt:"Anjos do espaço", nome:"", cat:SB, desc:"Equipe o boost Íon ou o acessório Halo e vença uma partida em Starbase ARC.",
+   como:"Equipe boost Ion ou topper Halo e vença uma Exibição em Starbase ARC contra bots Rookie."},
+  {id:"desafie-os-elementos", pt:"Desafie os elementos", nome:"", cat:SB, t:1, desc:"Complete uma partida em terras devastadas, no fundo do mar e no espaço.",
+   como:"Jogue uma Exibição em Wasteland, outra no AquaDome e outra em Starbase ARC."},
+  {id:"controle-de-dano", pt:"Controle de dano", nome:"", cat:SB, desc:"Vença uma partida de Chute em queda (Dropshot) sem o adversário marcar.",
+   como:"Exibição de Dropshot contra bot Rookie: marque e não deixe o bot quebrar o piso do seu lado."},
+  {id:"full-course", pt:"Serviço completo", nome:"Full Course", cat:SB, desc:"Marque um total de 18 gols em Chute em queda (Dropshot).",
+   como:"Exibição de Dropshot sem bots. Os gols somam entre partidas."},
+  {id:"buckminster-x10", pt:"Buckminster x10", nome:"", cat:SB, desc:"Cause dano num total de 320 painéis em Chute em queda (Dropshot).",
+   como:"Em Dropshot, cada vez que a bola carregada bate no piso adversário danifica painéis. Soma entre partidas; Exibição sem bots acelera."},
+
+  {id:"ta-chovendo-aqui", pt:"Tá chovendo aqui!", nome:"", cat:CF, t:1, desc:"Instale um item deluxe e conclua uma partida numa arena com clima turbulento.",
+   como:"Equipe um item deluxe e jogue uma arena com chuva ou tempestade (versão Stormy de alguma arena)."},
+  {id:"so-diversao", pt:"Só diversão", nome:"", cat:CF, t:1, desc:"Conclua uma partida online no Campo dos Campeões (Champions Field).",
+   como:"Partida online que caia em Champions Field. Partida privada nessa arena também pode servir."},
+  {id:"novo-perfil", pt:"Novo perfil! Quem é você?", nome:"", cat:CF, t:1, desc:"Mude sua faixa do jogador (banner), borda do avatar e título.",
+   como:"Garage > Player Banner, Avatar Border e Player Title: troque os três."},
+  {id:"trocando-segredos", pt:"Trocando segredos", nome:"", cat:CF, desc:"Troque 5 itens da mesma qualidade para receber um da qualidade seguinte.",
+   como:"Menu Trade In: escolha 5 itens da mesma raridade (ex.: 5 Raros) e confirme a troca."},
+  {id:"rank-up", pt:"Classificado", nome:"Rank Up", cat:CF, t:1, desc:"Conclua todas as partidas de classificação em qualquer lista competitiva.",
+   como:"Jogue as primeiras partidas de qualquer playlist Ranked até receber seu rank."},
+  {id:"craque-do-volante", pt:"Craque do volante", nome:"", cat:CF, t:1, desc:"Faça ou dê assistência para 30 gols em partidas online casuais ou competitivas.",
+   como:"Sai jogando online. Gols e assistências somam."},
+
+  {id:"junte-se-ao-clube", pt:"Junte-se ao clube!", nome:"", cat:CL, desc:"Crie ou entre num clube do Rocket League.",
+   como:"Menu Social > Clubs: crie um clube ou aceite convite de um amigo."},
+  {id:"antes-acompanhado", pt:"Antes acompanhado do que só", nome:"", cat:CL, desc:"Jogue e complete uma partida online com um ou mais colegas de clube.",
+   como:"Forme grupo (party) com alguém do seu clube e joguem uma partida online até o fim."},
+  {id:"novo-desafiante", pt:"Novo desafiante", nome:"", cat:CL, desc:"Jogue e complete uma partida de torneio online.",
+   como:"Menu Play > Tournaments: inscreva-se num torneio e jogue a primeira partida até o fim."},
+  {id:"sociavel", pt:"Sociável", nome:"", cat:CL, desc:"Jogue e complete 10 partidas online com colegas de clube.",
+   como:"Igual ao Antes acompanhado do que só, só que 10 vezes."},
+  {id:"pelo-clube", pt:"Pelo clube", nome:"", cat:CL, desc:"Marque um gol numa Partida de Clube (só emparelhamento online).",
+   como:"Com um grupo só de membros do mesmo clube, entre numa fila online e marque um gol."},
+  {id:"o-melhor-da-partida", pt:"O melhor da partida", nome:"", cat:CL, desc:"Marque um gol numa Partida de Clube (só emparelhamento online).",
+   como:"O PlayStation mostra a mesma descrição do Pelo clube. Pelo nome, o mais provável é que peça ser o MVP (melhor da partida) numa Partida de Clube."},
 ];
 
 const KEY = "rl-conquistas-v1";
@@ -488,7 +542,7 @@ document.getElementById("fileImport").addEventListener("change", e => {
   r.onload = () => {
     try {
       const s = JSON.parse(r.result);
-      estado = { feitas: s.feitas || {}, videos: s.videos || {}, extras: s.extras || [], prints: true };
+      estado = { feitas: s.feitas || {}, videos: s.videos || {}, extras: s.extras || [], prints: 2 };
       salvar(); render(); alert("Backup importado!");
     } catch (err) { alert("Esse arquivo não é um backup válido."); }
   };
@@ -497,9 +551,9 @@ document.getElementById("fileImport").addEventListener("change", e => {
 
 carregar();
 // Marca uma única vez os troféus que já aparecem conquistados nos prints (só adiciona, nunca desmarca)
-if (!estado.prints) {
+if ((estado.prints === true ? 1 : estado.prints || 0) < 2) {
   CONQUISTAS.forEach(a => { if (a.t) estado.feitas[a.id] = true; });
-  estado.prints = true; salvar();
+  estado.prints = 2; salvar();
 }
 render();
 </script>
